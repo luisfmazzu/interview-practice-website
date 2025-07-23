@@ -185,7 +185,7 @@ const PracticePage: React.FC = () => {
   const progress = totalQuestions > 0 ? ((totalQuestions - remainingQuestions) / totalQuestions) * 100 : 0;
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto relative min-h-screen">
       {/* Header with timer and progress */}
       <div className="mb-4 sm:mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
@@ -206,6 +206,27 @@ const PracticePage: React.FC = () => {
             className="bg-primary-600 h-3 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
+        </div>
+      </div>
+
+      {/* Top Navigation Buttons */}
+      <div className="mb-6">
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-4">
+            {!showAnswer ? (
+              <Button onClick={handleShowAnswer} size="lg" className="text-lg py-3 px-6">
+                Show Answer
+              </Button>
+            ) : (
+              <Button onClick={handleNextQuestion} size="lg" className="text-lg py-3 px-6">
+                Next Question
+              </Button>
+            )}
+          </div>
+          
+          <div className="text-base text-gray-600 flex items-center font-medium">
+            {remainingQuestions} questions remaining
+          </div>
         </div>
       </div>
 
@@ -267,7 +288,7 @@ const PracticePage: React.FC = () => {
             </div>
           )}
 
-          {/* Action buttons */}
+          {/* Bottom Navigation Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 pt-6">
             {!showAnswer ? (
               <Button onClick={handleShowAnswer} size="lg" className="text-lg py-3 px-6">
@@ -278,22 +299,21 @@ const PracticePage: React.FC = () => {
                 Next Question
               </Button>
             )}
-            
-            <Button 
-              onClick={handleEndSession} 
-              variant="danger"
-              size="lg"
-              className="text-lg py-3 px-6"
-            >
-              End Session
-            </Button>
-            
-            <div className="text-base text-gray-600 flex items-center sm:ml-auto font-medium">
-              {remainingQuestions} questions remaining
-            </div>
           </div>
         </div>
       </Card>
+
+      {/* Fixed End Session Button - Bottom Right */}
+      <div className="fixed bottom-6 right-6 z-10">
+        <Button 
+          onClick={handleEndSession} 
+          variant="danger"
+          size="lg"
+          className="text-lg py-3 px-6 shadow-lg"
+        >
+          End Session
+        </Button>
+      </div>
     </div>
   );
 };
