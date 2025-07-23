@@ -15,13 +15,23 @@ export const useSession = () => {
 
   const loadSession = () => {
     setIsLoading(true);
-    const session = sessionManager.loadSession();
-    setSessionData(session);
+    // Only load session on client side
+    if (typeof window !== 'undefined') {
+      const session = sessionManager.loadSession();
+      console.log('Loaded session:', session);
+      setSessionData(session);
+    }
     setIsLoading(false);
   };
 
   const createSession = (category: Category, technologies: string[] = []) => {
+    console.log('createSession called with:', category, technologies);
+    if (typeof window === 'undefined') {
+      console.log('createSession called on server side, skipping');
+      return null;
+    }
     const newSession = sessionManager.createSession(category, technologies);
+    console.log('New session created:', newSession);
     setSessionData(newSession);
     return newSession;
   };

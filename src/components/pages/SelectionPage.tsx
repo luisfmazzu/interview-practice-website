@@ -40,31 +40,49 @@ const SelectionPage: React.FC = () => {
   const validateForm = (): boolean => {
     const errors: string[] = [];
 
+    console.log('Validating form...');
+    console.log('selectedCategory:', selectedCategory);
+    console.log('selectedTechnologies:', selectedTechnologies);
+
     if (!selectedCategory) {
       errors.push('Please select a category');
+      console.log('No category selected');
     }
 
     if (selectedCategory === 'general' && selectedTechnologies.length === 0) {
       errors.push('Please select at least one technology for General category');
+      console.log('General category but no technologies selected');
     }
 
     setValidationErrors(errors);
+    console.log('Validation errors:', errors);
     return errors.length === 0;
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;
+    console.log('handleSubmit called');
+    console.log('selectedCategory:', selectedCategory);
+    console.log('selectedTechnologies:', selectedTechnologies);
+    
+    if (!validateForm()) {
+      console.log('Form validation failed');
+      return;
+    }
     
     setIsSubmitting(true);
     
     try {
+      console.log('Creating session...');
       // Create session with selected preferences
-      createSession(
+      const session = createSession(
         selectedCategory as Category,
         selectedCategory === 'general' ? selectedTechnologies : []
       );
+      console.log('Session created:', session);
       
       // Navigate to practice page
+      console.log('Navigating to practice page...');
+      await new Promise(resolve => setTimeout(resolve, 100)); // Small delay
       router.push('/practice');
     } catch (error) {
       console.error('Error creating session:', error);
@@ -155,7 +173,7 @@ const SelectionPage: React.FC = () => {
           )}
 
           {/* Submit Button */}
-          <div className="pt-4">
+          <div className="pt-4 space-y-3">
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting || !selectedCategory}
@@ -163,6 +181,20 @@ const SelectionPage: React.FC = () => {
               className="w-full"
             >
               {isSubmitting ? 'Starting Practice...' : 'Start Practice'}
+            </Button>
+            
+            {/* Debug button */}
+            <Button
+              onClick={() => {
+                console.log('Debug button clicked');
+                console.log('Current state:', { selectedCategory, selectedTechnologies });
+                router.push('/practice');
+              }}
+              variant="secondary"
+              size="sm"
+              className="w-full"
+            >
+              Debug: Go to Practice (no validation)
             </Button>
           </div>
         </div>

@@ -22,8 +22,13 @@ const PracticePage: React.FC = () => {
   }, [sessionData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initializePracticeSession = async () => {
+    console.log('initializePracticeSession called');
+    console.log('sessionData:', sessionData);
+    console.log('isValidSession():', isValidSession());
+    
     // Check if session is valid
     if (!isValidSession() || !sessionData) {
+      console.log('Invalid session, redirecting to home');
       router.push('/');
       return;
     }
@@ -88,12 +93,28 @@ const PracticePage: React.FC = () => {
   };
 
   // Show loading state
-  if (isLoading || !sessionData) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
           <LoadingSpinner size="lg" />
           <p className="mt-4 text-gray-600">Loading your practice session...</p>
+          <p className="mt-2 text-sm text-gray-500">Session data: {sessionData ? 'Available' : 'Not available'}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show no session state
+  if (!sessionData) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">No Practice Session Found</h2>
+          <p className="text-gray-600 mb-4">Please start a new practice session.</p>
+          <Button onClick={() => router.push('/')}>
+            Go to Selection Page
+          </Button>
         </div>
       </div>
     );

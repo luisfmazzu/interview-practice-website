@@ -12,6 +12,9 @@ export class LocalStorageManager {
 
   isAvailable(): boolean {
     try {
+      if (typeof window === 'undefined') {
+        return false;
+      }
       const test = '__localStorage_test__';
       localStorage.setItem(test, test);
       localStorage.removeItem(test);
