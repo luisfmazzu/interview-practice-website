@@ -59,7 +59,7 @@ const SelectionPage: React.FC = () => {
     return errors.length === 0;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     console.log('handleSubmit called');
     console.log('selectedCategory:', selectedCategory);
     console.log('selectedTechnologies:', selectedTechnologies);
@@ -82,7 +82,6 @@ const SelectionPage: React.FC = () => {
       
       // Navigate to practice page
       console.log('Navigating to practice page...');
-      await new Promise(resolve => setTimeout(resolve, 100)); // Small delay
       router.push('/practice');
     } catch (error) {
       console.error('Error creating session:', error);

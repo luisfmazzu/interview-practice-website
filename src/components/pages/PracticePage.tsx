@@ -18,7 +18,9 @@ const PracticePage: React.FC = () => {
   const [questionsExhausted, setQuestionsExhausted] = useState(false);
 
   useEffect(() => {
-    initializePracticeSession();
+    if (typeof window !== 'undefined') {
+      initializePracticeSession();
+    }
   }, [sessionData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initializePracticeSession = async () => {

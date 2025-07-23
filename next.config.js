@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  trailingSlash: true,
+  // Remove static export for development to enable proper client-side routing
+  // output: 'export',
+  // trailingSlash: true,
   images: {
     unoptimized: true
   }
