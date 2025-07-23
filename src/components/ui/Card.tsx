@@ -10,7 +10,7 @@ const Card: React.FC<CardProps> = ({ children, className = '', title }) => {
   return (
     <div className={`card ${className}`}>
       {title && (
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">{title}</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-900">{title}</h2>
       )}
       {children}
     </div>

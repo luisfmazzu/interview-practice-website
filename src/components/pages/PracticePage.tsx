@@ -1,36 +1,33 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Question } from '@/types';
+import { Question, TimerRef } from '@/types';
 import { useSession, useServices } from '@/lib/hooks';
 import { Button, Card, Timer, LoadingSpinner } from '@/components/ui';
 
 const PracticePage: React.FC = () => {
   const router = useRouter();
-  const { sessionData, addAccessedQuestion, clearSession, isValidSession } = useSession();
+  const { sessionData, addAccessedQuestion, clearSession, isValidSession, isLoading: sessionLoading } = useSession();
   const { questionService } = useServices();
+  const timerRef = useRef<TimerRef>(null);
   
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [questionsExhausted, setQuestionsExhausted] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !sessionLoading && !isInitialized) {
       initializePracticeSession();
     }
-  }, [sessionData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sessionData, sessionLoading, isInitialized]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initializePracticeSession = async () => {
-    console.log('initializePracticeSession called');
-    console.log('sessionData:', sessionData);
-    console.log('isValidSession():', isValidSession());
-    
     // Check if session is valid
     if (!isValidSession() || !sessionData) {
-      console.log('Invalid session, redirecting to home');
       router.push('/');
       return;
     }
@@ -46,6 +43,7 @@ const PracticePage: React.FC = () => {
       
       // Load first question
       loadNextQuestion();
+      setIsInitialized(true);
     } catch (error) {
       console.error('Error initializing practice session:', error);
       router.push('/');
@@ -66,17 +64,22 @@ const PracticePage: React.FC = () => {
 
     setCurrentQuestion(nextQuestion);
     setShowAnswer(false);
-    
-    // Add question to accessed list
-    addAccessedQuestion(nextQuestion.id);
   };
 
   const handleShowAnswer = () => {
     setShowAnswer(true);
+    // Mark question as accessed when user shows the answer
+    if (currentQuestion) {
+      addAccessedQuestion(currentQuestion.id);
+    }
   };
 
   const handleNextQuestion = () => {
     loadNextQuestion();
+    // Reset the timer using the ref
+    if (timerRef.current) {
+      timerRef.current.reset();
+    }
   };
 
   const handleEndSession = () => {
@@ -95,7 +98,7 @@ const PracticePage: React.FC = () => {
   };
 
   // Show loading state
-  if (isLoading) {
+  if (isLoading || sessionLoading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
@@ -128,7 +131,7 @@ const PracticePage: React.FC = () => {
     const accessedCount = sessionData.accessedQuestionIds.length;
     
     return (
-      <div className="max-w-2xl mx-auto text-center">
+      <div className="max-w-4xl mx-auto text-center">
         <Card>
           <div className="py-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
@@ -182,14 +185,15 @@ const PracticePage: React.FC = () => {
   const progress = totalQuestions > 0 ? ((totalQuestions - remainingQuestions) / totalQuestions) * 100 : 0;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       {/* Header with timer and progress */}
       <div className="mb-4 sm:mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
-          <div className="text-sm text-gray-600">
+          <div className="text-lg text-gray-700 font-medium">
             Question {sessionData.accessedQuestionIds.length} of {totalQuestions}
           </div>
           <Timer 
+            ref={timerRef}
             autoStart={true}
             onTick={handleTimerTick}
             onReset={handleTimerReset}
@@ -197,26 +201,26 @@ const PracticePage: React.FC = () => {
         </div>
         
         {/* Progress bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-3">
           <div 
-            className="bg-primary-600 h-2 rounded-full transition-all duration-300"
+            className="bg-primary-600 h-3 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
       {/* Question Card */}
-      <Card title="Question">
-        <div className="space-y-6">
+      <Card title="Question" className="w-full">
+        <div className="space-y-8">
           {/* Question text */}
-          <div className="text-lg text-gray-800 leading-relaxed">
+          <div className="text-xl text-gray-900 leading-relaxed font-medium">
             {currentQuestion.question}
           </div>
 
           {/* Difficulty badge */}
           {currentQuestion.difficulty && (
             <div className="flex items-center">
-              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+              <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
                 currentQuestion.difficulty === 'easy' 
                   ? 'bg-green-100 text-green-800'
                   : currentQuestion.difficulty === 'medium'
@@ -230,25 +234,47 @@ const PracticePage: React.FC = () => {
 
           {/* Answer section */}
           {showAnswer && (
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Answer:</h3>
-              <div 
-                className="prose prose-sm max-w-none text-gray-700"
-                dangerouslySetInnerHTML={{ 
-                  __html: currentQuestion.answer.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                }}
-              />
+            <div className="space-y-6">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Answer:</h3>
+                <div 
+                  className="prose prose-lg max-w-none text-gray-800"
+                  dangerouslySetInnerHTML={{ 
+                    __html: currentQuestion.answer.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  }}
+                />
+              </div>
+
+              {/* Keywords section */}
+              {currentQuestion.keywords && currentQuestion.keywords.length > 0 ? (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <h3 className="text-xl font-semibold text-blue-900 mb-4">Key Points to Cover:</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {currentQuestion.keywords.map((keyword, index) => (
+                      <span 
+                        key={index}
+                        className="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full border border-blue-300"
+                      >
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-blue-700 mt-3 italic">
+                    💡 These are the key concepts and terms interviewers typically expect to hear in your answer.
+                  </p>
+                </div>
+              ) : null}
             </div>
           )}
 
           {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 pt-6">
             {!showAnswer ? (
-              <Button onClick={handleShowAnswer} size="lg">
+              <Button onClick={handleShowAnswer} size="lg" className="text-lg py-3 px-6">
                 Show Answer
               </Button>
             ) : (
-              <Button onClick={handleNextQuestion} size="lg">
+              <Button onClick={handleNextQuestion} size="lg" className="text-lg py-3 px-6">
                 Next Question
               </Button>
             )}
@@ -257,11 +283,12 @@ const PracticePage: React.FC = () => {
               onClick={handleEndSession} 
               variant="danger"
               size="lg"
+              className="text-lg py-3 px-6"
             >
               End Session
             </Button>
             
-            <div className="text-sm text-gray-500 flex items-center sm:ml-auto">
+            <div className="text-base text-gray-600 flex items-center sm:ml-auto font-medium">
               {remainingQuestions} questions remaining
             </div>
           </div>

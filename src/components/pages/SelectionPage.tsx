@@ -40,48 +40,33 @@ const SelectionPage: React.FC = () => {
   const validateForm = (): boolean => {
     const errors: string[] = [];
 
-    console.log('Validating form...');
-    console.log('selectedCategory:', selectedCategory);
-    console.log('selectedTechnologies:', selectedTechnologies);
-
     if (!selectedCategory) {
       errors.push('Please select a category');
-      console.log('No category selected');
     }
 
     if (selectedCategory === 'general' && selectedTechnologies.length === 0) {
       errors.push('Please select at least one technology for General category');
-      console.log('General category but no technologies selected');
     }
 
     setValidationErrors(errors);
-    console.log('Validation errors:', errors);
     return errors.length === 0;
   };
 
   const handleSubmit = () => {
-    console.log('handleSubmit called');
-    console.log('selectedCategory:', selectedCategory);
-    console.log('selectedTechnologies:', selectedTechnologies);
-    
     if (!validateForm()) {
-      console.log('Form validation failed');
       return;
     }
     
     setIsSubmitting(true);
     
     try {
-      console.log('Creating session...');
       // Create session with selected preferences
       const session = createSession(
         selectedCategory as Category,
         selectedCategory === 'general' ? selectedTechnologies : []
       );
-      console.log('Session created:', session);
       
       // Navigate to practice page
-      console.log('Navigating to practice page...');
       router.push('/practice');
     } catch (error) {
       console.error('Error creating session:', error);
@@ -92,7 +77,7 @@ const SelectionPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-4xl mx-auto">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
           Interview Practice
@@ -106,10 +91,10 @@ const SelectionPage: React.FC = () => {
         <div className="space-y-6">
           {/* Category Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-lg font-semibold text-gray-800 mb-4">
               Category
             </label>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {CATEGORIES.map((category) => (
                 <label key={category.id} className="flex items-start cursor-pointer">
                   <input
@@ -118,13 +103,13 @@ const SelectionPage: React.FC = () => {
                     value={category.id}
                     checked={selectedCategory === category.id}
                     onChange={() => handleCategoryChange(category.id as Category)}
-                    className="radio-input mt-1"
+                    className="radio-input mt-1 w-5 h-5"
                   />
-                  <div className="ml-3">
-                    <div className="text-sm font-medium text-gray-900">
+                  <div className="ml-4">
+                    <div className="text-base font-semibold text-gray-900">
                       {category.label}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-base text-gray-600">
                       {category.description}
                     </div>
                   </div>
@@ -136,10 +121,10 @@ const SelectionPage: React.FC = () => {
           {/* Technology Selection (only for General category) */}
           {selectedCategory === 'general' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-lg font-semibold text-gray-800 mb-4">
                 Technologies (select at least one)
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-60 overflow-y-auto">
                 {TECHNOLOGIES.map((tech) => (
                   <label key={tech.id} className="flex items-center cursor-pointer">
                     <input
@@ -147,9 +132,9 @@ const SelectionPage: React.FC = () => {
                       value={tech.id}
                       checked={selectedTechnologies.includes(tech.id)}
                       onChange={() => handleTechnologyChange(tech.id)}
-                      className="checkbox-input"
+                      className="checkbox-input w-5 h-5"
                     />
-                    <span className="ml-2 text-sm text-gray-700">
+                    <span className="ml-3 text-base text-gray-800 font-medium">
                       {tech.label}
                     </span>
                   </label>
@@ -160,9 +145,9 @@ const SelectionPage: React.FC = () => {
 
           {/* Validation Errors */}
           {validationErrors.length > 0 && (
-            <div className="bg-red-50 border border-red-200 rounded-md p-3">
-              <div className="text-sm text-red-700">
-                <ul className="list-disc list-inside">
+            <div className="bg-red-50 border border-red-200 rounded-md p-4">
+              <div className="text-base text-red-800 font-medium">
+                <ul className="list-disc list-inside space-y-1">
                   {validationErrors.map((error, index) => (
                     <li key={index}>{error}</li>
                   ))}
@@ -172,28 +157,14 @@ const SelectionPage: React.FC = () => {
           )}
 
           {/* Submit Button */}
-          <div className="pt-4 space-y-3">
+          <div className="pt-6">
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting || !selectedCategory}
               size="lg"
-              className="w-full"
+              className="w-full text-lg py-4 px-6 font-semibold"
             >
               {isSubmitting ? 'Starting Practice...' : 'Start Practice'}
-            </Button>
-            
-            {/* Debug button */}
-            <Button
-              onClick={() => {
-                console.log('Debug button clicked');
-                console.log('Current state:', { selectedCategory, selectedTechnologies });
-                router.push('/practice');
-              }}
-              variant="secondary"
-              size="sm"
-              className="w-full"
-            >
-              Debug: Go to Practice (no validation)
             </Button>
           </div>
         </div>

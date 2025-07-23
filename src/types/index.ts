@@ -4,6 +4,7 @@ export interface Question {
   tag: string;
   question: string;
   answer: string;
+  keywords?: string[];
   difficulty?: 'easy' | 'medium' | 'hard';
   createdAt?: string;
 }
@@ -58,6 +59,12 @@ export interface TimerProps {
   autoStart?: boolean;
   format?: 'MM:SS' | 'SS';
   onReset?: () => void;
+}
+
+export interface TimerRef {
+  reset: () => void;
+  start: () => void;
+  pause: () => void;
 }
 
 export interface ButtonProps {

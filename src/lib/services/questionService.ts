@@ -125,7 +125,8 @@ export class QuestionService {
       typeof question.answer === 'string' &&
       question.id > 0 &&
       question.question.length >= 10 &&
-      question.answer.length >= 20
+      question.answer.length >= 20 &&
+      (question.keywords === undefined || Array.isArray(question.keywords))
     );
   }
 
@@ -147,13 +148,61 @@ export class QuestionService {
 
   // Fallback questions in case of loading errors
   private getFallbackQuestions(category: Category): Question[] {
+    // Use appropriate ID range for fallback based on category
+    const getBaseId = (cat: Category): number => {
+      switch (cat) {
+        case 'general': return 999; // Top of JavaScript range
+        case 'systems_design': return 3999; // Top of Systems Design range
+        case 'behaviour': return 4999; // Top of Behavioral range
+        default: return 99999; // Fallback for unknown categories
+      }
+    };
+
     const fallbackQuestion: Question = {
-      id: 0,
+      id: getBaseId(category),
       tag: category,
       question: 'Sample question - Unable to load questions at this time.',
       answer: 'Please refresh the page and try again. If the problem persists, check your internet connection.',
+      keywords: ['error handling', 'troubleshooting'],
       difficulty: 'easy'
     };
     return [fallbackQuestion];
+  }
+
+  // Get metadata about available questions (replaces the old index.json approach)
+  async getQuestionMetadata(): Promise<{
+    totalQuestions: number;
+    categories: Record<string, number | Record<string, number>>;
+  }> {
+    const metadata = {
+      totalQuestions: 0,
+      categories: {} as Record<string, number | Record<string, number>>
+    };
+
+    try {
+      // Load general category technologies
+      const technologies = ['javascript', 'react', 'typescript'];
+      const generalCounts: Record<string, number> = {};
+      
+      for (const tech of technologies) {
+        const questions = await this.loadTechnologyFile(tech);
+        generalCounts[tech] = questions.length;
+        metadata.totalQuestions += questions.length;
+      }
+      metadata.categories.general = generalCounts;
+
+      // Load other categories
+      const otherCategories = ['systems_design', 'behaviour'];
+      for (const category of otherCategories) {
+        const questions = await this.loadCategoryQuestions(category);
+        metadata.categories[category] = questions.length;
+        metadata.totalQuestions += questions.length;
+      }
+
+    } catch (error) {
+      console.error('Error generating question metadata:', error);
+    }
+
+    return metadata;
   }
 }
