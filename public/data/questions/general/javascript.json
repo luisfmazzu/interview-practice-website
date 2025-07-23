@@ -1,0 +1,40 @@
+{
+  "technology": "javascript",
+  "questions": [
+    {
+      "id": 1,
+      "tag": "javascript",
+      "question": "Explain the difference between `let`, `const`, and `var` in JavaScript.",
+      "answer": "**var:**\n- Function-scoped or globally-scoped\n- Can be redeclared and updated\n- Hoisted with undefined initialization\n- Creates property on global object\n\n**let:**\n- Block-scoped\n- Can be updated but not redeclared in same scope\n- Hoisted but not initialized (temporal dead zone)\n- Does not create property on global object\n\n**const:**\n- Block-scoped\n- Cannot be updated or redeclared\n- Must be initialized at declaration\n- Hoisted but not initialized (temporal dead zone)\n- For objects/arrays, contents can be modified",
+      "difficulty": "easy"
+    },
+    {
+      "id": 2,
+      "tag": "javascript",
+      "question": "What is a closure in JavaScript? Provide an example.",
+      "answer": "A closure is a function that has access to variables in its outer (enclosing) scope even after the outer function has returned.\n\n**Example:**\n```javascript\nfunction outerFunction(x) {\n  return function innerFunction(y) {\n    return x + y; // Has access to 'x'\n  };\n}\n\nconst addFive = outerFunction(5);\nconsole.log(addFive(3)); // 8\n```\n\n**Key points:**\n- Inner function maintains reference to outer scope\n- Enables data privacy and encapsulation\n- Commonly used in module patterns and callbacks\n- Can cause memory leaks if not handled properly",
+      "difficulty": "medium"
+    },
+    {
+      "id": 3,
+      "tag": "javascript",
+      "question": "Explain event bubbling and capturing in the DOM.",
+      "answer": "Event propagation has three phases:\n\n**1. Capturing Phase:**\n- Event travels from root to target element\n- Rarely used, can be enabled with `addEventListener(event, handler, true)`\n\n**2. Target Phase:**\n- Event reaches the target element\n\n**3. Bubbling Phase:**\n- Event bubbles up from target to root\n- Default behavior\n\n**Example:**\n```javascript\n// Bubbling (default)\nelement.addEventListener('click', handler);\n\n// Capturing\nelement.addEventListener('click', handler, true);\n\n// Stop propagation\nevent.stopPropagation();\n```\n\n**Use cases:**\n- Event delegation\n- Handling events on dynamically created elements",
+      "difficulty": "medium"
+    },
+    {
+      "id": 4,
+      "tag": "javascript",
+      "question": "What is the difference between `==` and `===` in JavaScript?",
+      "answer": "**== (Loose Equality):**\n- Performs type coercion before comparison\n- Converts operands to same type, then compares\n- Can lead to unexpected results\n\n**=== (Strict Equality):**\n- No type coercion\n- Compares both value and type\n- Recommended for most comparisons\n\n**Examples:**\n```javascript\n// Loose equality\n'5' == 5    // true (string coerced to number)\n0 == false  // true\nnull == undefined // true\n\n// Strict equality\n'5' === 5    // false (different types)\n0 === false  // false\nnull === undefined // false\n```\n\n**Best practice:** Use `===` unless you specifically need type coercion.",
+      "difficulty": "easy"
+    },
+    {
+      "id": 5,
+      "tag": "javascript",
+      "question": "Explain the concept of hoisting in JavaScript.",
+      "answer": "Hoisting is JavaScript's behavior of moving declarations to the top of their scope during compilation.\n\n**Variable Hoisting:**\n```javascript\nconsole.log(x); // undefined (not error)\nvar x = 5;\n\n// Equivalent to:\nvar x;\nconsole.log(x); // undefined\nx = 5;\n```\n\n**Function Hoisting:**\n```javascript\n// Function declarations are fully hoisted\nsayHello(); // Works!\n\nfunction sayHello() {\n  console.log('Hello!');\n}\n\n// Function expressions are not hoisted\nsayGoodbye(); // TypeError\nvar sayGoodbye = function() {\n  console.log('Goodbye!');\n};\n```\n\n**let/const:**\n- Hoisted but not initialized (temporal dead zone)\n- Accessing before declaration throws ReferenceError",
+      "difficulty": "medium"
+    }
+  ]
+}

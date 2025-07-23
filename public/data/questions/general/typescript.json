@@ -1,0 +1,26 @@
+{
+  "technology": "typescript",
+  "questions": [
+    {
+      "id": 30,
+      "tag": "typescript",
+      "question": "What are the main benefits of using TypeScript over JavaScript?",
+      "answer": "**Type Safety:**\n- Catch errors at compile-time instead of runtime\n- Prevent common bugs like undefined properties\n- Better code reliability\n\n**Developer Experience:**\n- Excellent IDE support with autocomplete\n- Intelligent refactoring\n- Better documentation through types\n\n**Code Quality:**\n- Self-documenting code\n- Easier maintenance and debugging\n- Better team collaboration\n\n**Modern JavaScript Features:**\n- Latest ECMAScript features\n- Compiles to older JavaScript versions\n- Optional static typing\n\n**Tooling:**\n- Better build tools integration\n- Enhanced testing capabilities\n- Rich ecosystem support\n\n**Example:**\n```typescript\n// TypeScript catches this error at compile time\ninterface User {\n  name: string;\n  age: number;\n}\n\nfunction greetUser(user: User) {\n  return `Hello, ${user.name}!`;\n}\n\ngreetUser({ name: 'John' }); // Error: missing 'age' property\n```",
+      "difficulty": "easy"
+    },
+    {
+      "id": 31,
+      "tag": "typescript",
+      "question": "Explain TypeScript interfaces and how they differ from types.",
+      "answer": "**Interfaces:**\nDefine the structure of objects and can be extended or implemented.\n\n```typescript\ninterface User {\n  name: string;\n  age: number;\n}\n\n// Can be extended\ninterface AdminUser extends User {\n  permissions: string[];\n}\n\n// Can be merged (declaration merging)\ninterface User {\n  email?: string; // Adds email to existing User interface\n}\n```\n\n**Types:**\nMore flexible, can represent any type including primitives, unions, and computed types.\n\n```typescript\ntype User = {\n  name: string;\n  age: number;\n};\n\n// Union types\ntype Status = 'loading' | 'success' | 'error';\n\n// Computed types\ntype UserKeys = keyof User; // 'name' | 'age'\n```\n\n**Key Differences:**\n- **Extensibility:** Interfaces can be extended and merged, types cannot\n- **Flexibility:** Types can represent unions, primitives, computed types\n- **Performance:** Interfaces are slightly better for object shapes\n- **Use Cases:** Interfaces for object shapes, types for everything else",
+      "difficulty": "medium"
+    },
+    {
+      "id": 32,
+      "tag": "typescript",
+      "question": "What are generics in TypeScript and why are they useful?",
+      "answer": "Generics allow you to create reusable components that work with multiple types while maintaining type safety.\n\n**Basic Generic Function:**\n```typescript\nfunction identity<T>(arg: T): T {\n  return arg;\n}\n\nconst result1 = identity<string>('hello'); // string\nconst result2 = identity<number>(42); // number\nconst result3 = identity('hello'); // Type inferred as string\n```\n\n**Generic Interfaces:**\n```typescript\ninterface ApiResponse<T> {\n  data: T;\n  status: number;\n  message: string;\n}\n\ntype UserResponse = ApiResponse<User>;\ntype ProductResponse = ApiResponse<Product[]>;\n```\n\n**Generic Classes:**\n```typescript\nclass DataStore<T> {\n  private data: T[] = [];\n  \n  add(item: T): void {\n    this.data.push(item);\n  }\n  \n  get(index: number): T | undefined {\n    return this.data[index];\n  }\n}\n\nconst userStore = new DataStore<User>();\nconst productStore = new DataStore<Product>();\n```\n\n**Benefits:**\n- Type safety without sacrificing flexibility\n- Code reusability\n- Better IntelliSense and error detection\n- Self-documenting APIs",
+      "difficulty": "medium"
+    }
+  ]
+}
