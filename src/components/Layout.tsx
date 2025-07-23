@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <h1 className="text-xl font-semibold text-gray-900">
-                Interview Practice
+                Software Interview Practice
               </h1>
             </div>
           </div>

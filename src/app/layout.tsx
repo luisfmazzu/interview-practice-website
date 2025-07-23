@@ -7,8 +7,8 @@ import Layout from '@/components/Layout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Interview Practice Website',
-  description: 'Practice technical interview questions across different categories and technologies',
+  title: 'Software Interview Practice',
+  description: 'Practice software engineering interview questions across different categories and technologies',
 };
 
 export default function RootLayout({

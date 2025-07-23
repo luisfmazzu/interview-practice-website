@@ -80,7 +80,7 @@ const SelectionPage: React.FC = () => {
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-          Interview Practice
+          Software Interview Practice
         </h1>
         <p className="text-base sm:text-lg text-gray-600">
           Choose your practice category to get started
