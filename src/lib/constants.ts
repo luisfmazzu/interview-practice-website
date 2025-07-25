@@ -26,6 +26,7 @@ export const TECHNOLOGIES = [
   { id: 'docker', label: 'Docker' },
   { id: 'graphql', label: 'GraphQL' },
   { id: 'apis', label: 'APIs' },
+  { id: 'celery', label: 'Celery' },
   { id: 'csharp', label: 'C#' },
   { id: 'rust', label: 'Rust' },
   { id: 'golang', label: 'Golang' },

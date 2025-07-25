@@ -1,0 +1,165 @@
+{
+  "technology": "serverless",
+  "questions": [
+    {
+      "id": 0,
+      "tag": "serverless",
+      "question": "What is serverless computing and what are its main characteristics?",
+      "answer": "**Serverless Computing** is a cloud execution model where the cloud provider manages server infrastructure, allowing developers to focus solely on code.\n\n**Key Characteristics:**\n- **No server management:** Cloud provider handles infrastructure\n- **Event-driven execution:** Functions triggered by events\n- **Automatic scaling:** Scales from zero to thousands instantly\n- **Pay-per-execution:** Only pay for actual compute time\n- **Stateless functions:** Each execution is independent\n- **Short-lived:** Functions have execution time limits\n\n**Common Services:**\n- **AWS Lambda:** Function as a Service (FaaS)\n- **Azure Functions:** Microsoft's serverless platform\n- **Google Cloud Functions:** Google's FaaS offering\n- **Vercel Functions:** Web-focused serverless\n\n**Benefits:** Reduced operational overhead, automatic scaling, cost efficiency, faster time to market",
+      "keywords": ["serverless computing", "FaaS", "event-driven", "automatic scaling", "pay-per-execution", "stateless", "AWS Lambda", "cloud provider"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 1,
+      "tag": "serverless",
+      "question": "What are the advantages and disadvantages of serverless architecture?",
+      "answer": "**Advantages:**\n- **Cost efficiency:** Pay only for execution time\n- **Automatic scaling:** Handles traffic spikes without configuration\n- **No server management:** Focus on code, not infrastructure\n- **Built-in high availability:** Cloud provider handles redundancy\n- **Faster development:** Simplified deployment and operations\n- **Event-driven:** Natural fit for reactive architectures\n\n**Disadvantages:**\n- **Vendor lock-in:** Tied to specific cloud provider\n- **Cold start latency:** Delay when function hasn't run recently\n- **Limited execution time:** Timeout restrictions (AWS Lambda: 15 minutes)\n- **Memory limitations:** Resource constraints\n- **Debugging complexity:** Harder to debug distributed systems\n- **Local development:** Difficult to replicate serverless environment\n- **Cost unpredictability:** High-frequency executions can be expensive",
+      "keywords": ["cost efficiency", "automatic scaling", "vendor lock-in", "cold start", "execution limits", "debugging", "local development"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 2,
+      "tag": "serverless",
+      "question": "What is a cold start in serverless and how can you mitigate it?",
+      "answer": "**Cold Start** occurs when a serverless function is invoked after being idle, requiring the provider to initialize a new execution environment.\n\n**Cold Start Process:**\n1. Provision execution environment\n2. Download function code\n3. Initialize runtime\n4. Execute function code\n\n**Factors Affecting Cold Start Time:**\n- Runtime language (Java > Python > Node.js)\n- Function size and dependencies\n- Memory allocation\n- VPC configuration\n\n**Mitigation Strategies:**\n- **Provisioned Concurrency:** Pre-warm function instances\n- **Keep functions warm:** Periodic invocation with scheduled events\n- **Optimize package size:** Minimize dependencies and code size\n- **Choose faster runtimes:** Node.js, Python over Java/.NET\n- **Connection pooling:** Reuse database connections\n- **Avoid VPC:** Unless necessary for security\n\n**Tools:** AWS Lambda Provisioned Concurrency, Azure Premium Plan, scheduled CloudWatch events",
+      "keywords": ["cold start", "execution environment", "provisioned concurrency", "warm functions", "runtime optimization", "package size", "connection pooling"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 3,
+      "tag": "serverless",
+      "question": "Explain the concept of Function as a Service (FaaS) and provide examples.",
+      "answer": "**Function as a Service (FaaS)** is a serverless computing model where developers deploy individual functions that execute in response to events.\n\n**Key Concepts:**\n- **Single-purpose functions:** Each function performs one specific task\n- **Event-driven triggers:** HTTP requests, database changes, file uploads\n- **Stateless execution:** No persistent state between invocations\n- **Automatic resource management:** Provider handles scaling and infrastructure\n\n**Popular FaaS Platforms:**\n- **AWS Lambda:** Most mature, extensive integrations\n- **Azure Functions:** Microsoft ecosystem integration\n- **Google Cloud Functions:** Google Cloud Platform integration\n- **Vercel Functions:** Optimized for web applications\n- **Netlify Functions:** JAMstack focused\n- **Cloudflare Workers:** Edge computing\n\n**Example Use Cases:**\n- Image processing and resizing\n- API backends and microservices\n- Data processing pipelines\n- Webhook handlers\n- Scheduled tasks and cron jobs\n- Real-time file processing",
+      "keywords": ["FaaS", "single-purpose functions", "event-driven triggers", "stateless execution", "AWS Lambda", "Azure Functions", "microservices"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 4,
+      "tag": "serverless",
+      "question": "What are serverless design patterns and best practices?",
+      "answer": "**Common Serverless Design Patterns:**\n\n**1. API Gateway + Lambda:**\n- API Gateway routes requests to Lambda functions\n- RESTful APIs and GraphQL backends\n\n**2. Event-Driven Processing:**\n- Functions triggered by events (S3, DynamoDB, SQS)\n- Asynchronous processing pipelines\n\n**3. Fan-out/Fan-in:**\n- One event triggers multiple functions (fan-out)\n- Multiple functions feed into one (fan-in)\n\n**4. Circuit Breaker:**\n- Handle downstream service failures gracefully\n\n**Best Practices:**\n- **Single responsibility:** One function, one purpose\n- **Idempotent functions:** Handle duplicate invocations\n- **Error handling:** Implement retry logic and dead letter queues\n- **Monitoring:** Use distributed tracing and logging\n- **Security:** Least privilege IAM roles\n- **Environment variables:** Externalize configuration\n- **Stateless design:** Store state in external services",
+      "keywords": ["API Gateway", "event-driven processing", "fan-out", "fan-in", "circuit breaker", "single responsibility", "idempotent", "error handling"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 5,
+      "tag": "serverless",
+      "question": "How do you handle state in serverless applications?",
+      "answer": "Since serverless functions are **stateless**, state must be managed externally using various storage and caching solutions.\n\n**State Storage Options:**\n\n**1. Databases:**\n- **DynamoDB:** Fast NoSQL for session data\n- **RDS/Aurora Serverless:** Relational data with auto-scaling\n- **DocumentDB:** MongoDB-compatible document database\n\n**2. Caching:**\n- **ElastiCache:** Redis/Memcached for temporary state\n- **DAX:** DynamoDB accelerator for microsecond latency\n\n**3. Object Storage:**\n- **S3:** Files, documents, large objects\n- **EFS:** Shared file system across functions\n\n**4. Message Queues:**\n- **SQS:** Queue state for processing\n- **SNS:** Pub/sub messaging patterns\n\n**State Management Patterns:**\n- **Session tokens:** Store user sessions in DynamoDB\n- **Workflow state:** Use Step Functions for complex workflows\n- **Connection pooling:** Reuse database connections\n- **Global variables:** Cache data within function execution context",
+      "keywords": ["stateless functions", "external storage", "DynamoDB", "RDS Aurora", "ElastiCache", "S3", "session management", "connection pooling"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 6,
+      "tag": "serverless",
+      "question": "What are AWS Step Functions and when would you use them?",
+      "answer": "**AWS Step Functions** is a serverless orchestration service that coordinates multiple AWS services into serverless workflows using state machines.\n\n**Key Features:**\n- **Visual workflow:** Graphical representation of workflow\n- **State machine:** JSON-based workflow definition\n- **Error handling:** Built-in retry and catch mechanisms\n- **Parallel execution:** Run tasks simultaneously\n- **Human approval:** Wait for manual approval steps\n\n**Workflow Types:**\n- **Standard Workflows:** Long-running, exactly-once execution\n- **Express Workflows:** High-volume, short-duration, at-least-once\n\n**Use Cases:**\n- **Data processing pipelines:** ETL workflows\n- **Microservice orchestration:** Coordinate multiple Lambda functions\n- **Human approval workflows:** Manual review steps\n- **Batch job processing:** Coordinate batch operations\n- **Order processing:** E-commerce order fulfillment\n\n**Benefits:**\n- **Reduced code complexity:** Visual workflow management\n- **Built-in error handling:** No custom retry logic needed\n- **Service integrations:** Direct integration with 200+ AWS services",
+      "keywords": ["AWS Step Functions", "workflow orchestration", "state machine", "visual workflow", "error handling", "microservice coordination", "ETL pipelines"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 7,
+      "tag": "serverless",
+      "question": "How do you implement authentication and authorization in serverless applications?",
+      "answer": "**Authentication & Authorization Strategies:**\n\n**1. API Gateway Authorizers:**\n- **Cognito User Pools:** Built-in user management\n- **Lambda Authorizers:** Custom authorization logic\n- **API Keys:** Simple API access control\n- **IAM Roles:** AWS service-to-service authentication\n\n**2. JWT Token Validation:**\n```javascript\n// Lambda authorizer example\nconst jwt = require('jsonwebtoken');\n\nexports.handler = async (event) => {\n  const token = event.authorizationToken;\n  try {\n    const decoded = jwt.verify(token, process.env.JWT_SECRET);\n    return generatePolicy('user', 'Allow', event.methodArn);\n  } catch (err) {\n    return generatePolicy('user', 'Deny', event.methodArn);\n  }\n};\n```\n\n**3. Third-party Integration:**\n- **Auth0:** Identity platform integration\n- **Okta:** Enterprise identity management\n- **Firebase Auth:** Google's authentication service\n\n**Best Practices:**\n- **Principle of least privilege:** Minimal IAM permissions\n- **Token expiration:** Short-lived access tokens\n- **Rate limiting:** Prevent abuse\n- **HTTPS only:** Secure token transmission",
+      "keywords": ["API Gateway authorizers", "Cognito User Pools", "Lambda authorizers", "JWT tokens", "IAM roles", "Auth0", "least privilege"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 8,
+      "tag": "serverless",
+      "question": "What is the Serverless Application Model (SAM) and how does it work?",
+      "answer": "**AWS SAM (Serverless Application Model)** is an open-source framework for building serverless applications on AWS.\n\n**Key Components:**\n- **SAM Template:** YAML/JSON CloudFormation extension\n- **SAM CLI:** Command-line tool for development\n- **Transform:** Converts SAM syntax to CloudFormation\n\n**SAM Template Example:**\n```yaml\nAWSTemplateFormatVersion: '2010-09-09'\nTransform: AWS::Serverless-2016-10-31\n\nResources:\n  HelloWorldFunction:\n    Type: AWS::Serverless::Function\n    Properties:\n      CodeUri: hello-world/\n      Handler: app.lambdaHandler\n      Runtime: nodejs14.x\n      Events:\n        HelloWorld:\n          Type: Api\n          Properties:\n            Path: /hello\n            Method: get\n```\n\n**SAM CLI Features:**\n- **Local development:** `sam local start-api`\n- **Building:** `sam build`\n- **Deployment:** `sam deploy`\n- **Testing:** `sam local invoke`\n\n**Benefits:**\n- **Simplified syntax:** Less verbose than CloudFormation\n- **Local testing:** Test functions locally\n- **Integrated deployment:** Built-in CI/CD support",
+      "keywords": ["AWS SAM", "CloudFormation extension", "SAM template", "SAM CLI", "local development", "deployment automation", "serverless framework"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 9,
+      "tag": "serverless",
+      "question": "How do you monitor and debug serverless applications?",
+      "answer": "**Monitoring Serverless Applications:**\n\n**1. AWS CloudWatch:**\n- **Metrics:** Duration, error rate, invocation count\n- **Logs:** Function execution logs\n- **Alarms:** Automated alerts on thresholds\n- **Dashboards:** Visual monitoring\n\n**2. Distributed Tracing:**\n- **AWS X-Ray:** Trace requests across services\n- **Custom tracing:** Instrument application code\n\n**3. Third-party Tools:**\n- **Datadog:** Comprehensive serverless monitoring\n- **New Relic:** Application performance monitoring\n- **Thundra:** Serverless observability platform\n\n**Debugging Strategies:**\n- **Local development:** SAM CLI, Serverless Framework\n- **Remote debugging:** CloudWatch Logs, X-Ray traces\n- **Error tracking:** Capture and analyze exceptions\n- **Performance profiling:** Identify bottlenecks\n\n**Best Practices:**\n- **Structured logging:** JSON format for better parsing\n- **Correlation IDs:** Track requests across functions\n- **Custom metrics:** Business-specific measurements\n- **Health checks:** Monitor critical function paths",
+      "keywords": ["CloudWatch", "distributed tracing", "AWS X-Ray", "structured logging", "correlation IDs", "performance monitoring", "error tracking"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 10,
+      "tag": "serverless",
+      "question": "What are the different event sources that can trigger serverless functions?",
+      "answer": "**Common Event Sources:**\n\n**1. HTTP Events:**\n- **API Gateway:** REST APIs, WebSocket APIs\n- **Application Load Balancer:** Direct ALB integration\n- **Function URLs:** Direct HTTP endpoints\n\n**2. Storage Events:**\n- **S3:** Object created, deleted, modified\n- **DynamoDB:** Stream events on table changes\n- **EFS:** File system events\n\n**3. Message Services:**\n- **SQS:** Queue message processing\n- **SNS:** Pub/sub notifications\n- **EventBridge:** Custom event routing\n- **Kinesis:** Real-time data streams\n\n**4. Scheduled Events:**\n- **CloudWatch Events:** Cron-like scheduling\n- **EventBridge Rules:** Time-based triggers\n\n**5. IoT and Real-time:**\n- **IoT Core:** Device message processing\n- **Alexa Skills:** Voice interactions\n- **CloudFront:** Edge computing events\n\n**6. Database Events:**\n- **DynamoDB Streams:** Table change notifications\n- **DocumentDB Events:** Document database changes",
+      "keywords": ["API Gateway", "S3 events", "DynamoDB streams", "SQS", "SNS", "EventBridge", "CloudWatch Events", "scheduled triggers"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 11,
+      "tag": "serverless",
+      "question": "What is serverless computing pricing model and cost optimization strategies?",
+      "answer": "**Serverless Pricing Model:**\n\n**AWS Lambda Pricing:**\n- **Requests:** $0.20 per 1M requests\n- **Duration:** $0.0000166667 per GB-second\n- **Free tier:** 1M requests and 400,000 GB-seconds per month\n\n**Factors Affecting Cost:**\n- Number of function invocations\n- Memory allocation (128MB - 10GB)\n- Execution duration\n- Data transfer\n- Additional services (API Gateway, DynamoDB)\n\n**Cost Optimization Strategies:**\n\n**1. Right-size Memory:**\n- Higher memory = faster execution but higher cost\n- Find optimal memory/duration balance\n- Use AWS Lambda Power Tuning tool\n\n**2. Optimize Code:**\n- Reduce execution time\n- Minimize cold starts\n- Efficient algorithms and libraries\n\n**3. Connection Management:**\n- Reuse database connections\n- Connection pooling outside handler\n\n**4. Monitoring:**\n- Track unused functions\n- Monitor cost per function\n- Set up billing alerts",
+      "keywords": ["pricing model", "requests cost", "duration cost", "memory allocation", "cost optimization", "right-sizing", "Lambda Power Tuning", "connection pooling"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 12,
+      "tag": "serverless",
+      "question": "How do you handle error handling and retries in serverless applications?",
+      "answer": "**Error Handling Strategies:**\n\n**1. Function-Level Error Handling:**\n```javascript\nexports.handler = async (event) => {\n  try {\n    // Function logic\n    return { statusCode: 200, body: JSON.stringify(result) };\n  } catch (error) {\n    console.error('Error:', error);\n    return {\n      statusCode: 500,\n      body: JSON.stringify({ error: 'Internal Server Error' })\n    };\n  }\n};\n```\n\n**2. AWS Service Retries:**\n- **Synchronous invocations:** No automatic retry\n- **Asynchronous invocations:** 2 automatic retries\n- **Stream-based:** Retry until success or record expires\n\n**3. Dead Letter Queues (DLQ):**\n- Capture failed messages for analysis\n- Prevent message loss\n- Manual processing of failed events\n\n**4. Circuit Breaker Pattern:**\n- Prevent cascading failures\n- Fail fast when downstream services are down\n\n**Best Practices:**\n- **Idempotent functions:** Handle duplicate invocations\n- **Exponential backoff:** Gradual retry intervals\n- **Partial batch failure:** Process successful records\n- **Monitoring:** Track error rates and patterns",
+      "keywords": ["error handling", "try-catch", "automatic retries", "dead letter queues", "circuit breaker", "idempotent functions", "exponential backoff"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 13,
+      "tag": "serverless",
+      "question": "What is serverless at the edge and what are its benefits?",
+      "answer": "**Serverless at the Edge** runs serverless functions closer to users at edge locations, reducing latency and improving performance.\n\n**Edge Computing Services:**\n- **CloudFlare Workers:** V8 isolates at global edge locations\n- **AWS Lambda@Edge:** Run Lambda functions at CloudFront edges\n- **Vercel Edge Functions:** Next.js edge runtime\n- **Netlify Edge Functions:** Deno-based edge computing\n\n**Use Cases:**\n- **Content personalization:** Customize content based on location\n- **Authentication:** Validate tokens at the edge\n- **A/B testing:** Route users to different versions\n- **Request/response manipulation:** Modify headers, redirects\n- **Caching logic:** Custom caching strategies\n- **Bot protection:** Filter malicious requests\n\n**Benefits:**\n- **Reduced latency:** Execute closer to users\n- **Global scaling:** Automatic worldwide distribution\n- **Improved performance:** Faster response times\n- **Reduced backend load:** Process requests at edge\n- **Better user experience:** Faster page loads\n\n**Limitations:** Smaller runtime environment, limited execution time, fewer APIs available",
+      "keywords": ["edge computing", "CloudFlare Workers", "Lambda@Edge", "reduced latency", "global scaling", "content personalization", "edge locations"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 14,
+      "tag": "serverless",
+      "question": "How do you implement CI/CD for serverless applications?",
+      "answer": "**Serverless CI/CD Pipeline:**\n\n**1. Source Control:**\n- Git-based workflow\n- Feature branches for development\n- Infrastructure as Code (SAM, Serverless Framework)\n\n**2. Build Stage:**\n- Install dependencies\n- Run tests (unit, integration)\n- Package function code\n- Validate templates\n\n**3. Deploy Stages:**\n- **Development:** Automatic deployment on commit\n- **Staging:** Testing environment\n- **Production:** Manual approval or automated\n\n**Tools and Services:**\n- **AWS CodePipeline:** Native AWS CI/CD\n- **GitHub Actions:** Popular for serverless deployments\n- **GitLab CI:** Built-in CI/CD platform\n- **Serverless Framework:** Multi-cloud deployment\n\n**Example GitHub Actions:**\n```yaml\nname: Deploy Serverless\non:\n  push:\n    branches: [main]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v2\n      - run: npm install\n      - run: npm test\n      - run: sam deploy\n```\n\n**Best Practices:**\n- **Environment separation:** Different AWS accounts/regions\n- **Automated testing:** Include integration tests\n- **Rollback strategy:** Quick revert capability",
+      "keywords": ["CI/CD pipeline", "AWS CodePipeline", "GitHub Actions", "SAM deploy", "environment separation", "automated testing", "rollback strategy"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 15,
+      "tag": "serverless",
+      "question": "What are serverless databases and how do they complement serverless computing?",
+      "answer": "**Serverless Databases** automatically scale compute and storage based on demand without managing servers.\n\n**AWS Serverless Database Options:**\n\n**1. DynamoDB:**\n- NoSQL database with on-demand scaling\n- Pay-per-request pricing\n- Millisecond latency\n- Built-in security and backup\n\n**2. Aurora Serverless:**\n- MySQL/PostgreSQL compatible\n- Auto-scaling compute capacity\n- Pay only for resources used\n- Automatic pause/resume\n\n**3. RDS Proxy:**\n- Connection pooling for Lambda functions\n- Reduces database connections\n- Improves application resilience\n\n**Benefits for Serverless Applications:**\n- **Automatic scaling:** Matches serverless function scaling\n- **No connection limits:** Handle concurrent function executions\n- **Cost efficiency:** Pay for actual usage\n- **Zero administration:** No server management\n- **Built-in security:** Encryption and access control\n\n**Design Patterns:**\n- **Single-table design:** DynamoDB best practice\n- **Connection pooling:** Reuse database connections\n- **Caching layer:** ElastiCache for frequent reads",
+      "keywords": ["serverless databases", "DynamoDB", "Aurora Serverless", "RDS Proxy", "automatic scaling", "connection pooling", "single-table design"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 16,
+      "tag": "serverless",
+      "question": "What is the Serverless Framework and how does it compare to AWS SAM?",
+      "answer": "**Serverless Framework** is an open-source framework for building and deploying serverless applications across multiple cloud providers.\n\n**Serverless Framework Features:**\n- **Multi-cloud support:** AWS, Azure, GCP, Cloudflare\n- **Plugin ecosystem:** Extensive community plugins\n- **Environment management:** Multiple stages/environments\n- **Local development:** Offline plugin for local testing\n\n**AWS SAM vs Serverless Framework:**\n\n**AWS SAM:**\n- **AWS-specific:** Deep AWS integration\n- **CloudFormation-based:** Native AWS tooling\n- **SAM CLI:** Built-in local testing\n- **Simpler syntax:** Less configuration needed\n\n**Serverless Framework:**\n- **Multi-cloud:** Vendor agnostic\n- **Rich plugins:** More extensibility\n- **Mature ecosystem:** Longer development history\n- **Complex configurations:** More flexible but verbose\n\n**Choice Factors:**\n- **Multi-cloud strategy:** Serverless Framework\n- **AWS-only:** SAM for simplicity\n- **Team expertise:** Choose based on familiarity\n- **Plugin needs:** Serverless Framework for advanced features\n\n**Example Serverless config:**\n```yaml\nservice: my-service\nprovider:\n  name: aws\n  runtime: nodejs14.x\nfunctions:\n  hello:\n    handler: handler.hello\n    events:\n      - http:\n          path: hello\n          method: get\n```",
+      "keywords": ["Serverless Framework", "multi-cloud", "plugin ecosystem", "AWS SAM", "CloudFormation", "vendor agnostic", "configuration management"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 17,
+      "tag": "serverless",
+      "question": "How do you handle database connections in serverless functions?",
+      "answer": "**Database Connection Challenges:**\n- **Connection limits:** Traditional databases have max connections\n- **Cold starts:** New connections on every cold start\n- **Connection overhead:** Time to establish connections\n- **Resource usage:** Connections consume memory\n\n**Connection Management Strategies:**\n\n**1. Connection Pooling:**\n```javascript\n// Global connection pool (reused across invocations)\nlet pool;\n\nexports.handler = async (event) => {\n  if (!pool) {\n    pool = mysql.createPool({\n      host: process.env.DB_HOST,\n      user: process.env.DB_USER,\n      password: process.env.DB_PASSWORD,\n      connectionLimit: 10\n    });\n  }\n  \n  // Use pool for database operations\n  const result = await pool.query('SELECT * FROM users');\n  return result;\n};\n```\n\n**2. AWS RDS Proxy:**\n- Manages connection pooling\n- Reduces database connections\n- Handles failover and load balancing\n\n**3. Serverless Databases:**\n- **DynamoDB:** No connection management needed\n- **Aurora Serverless:** HTTP-based Data API\n\n**Best Practices:**\n- **Reuse connections:** Store in global variables\n- **Set timeouts:** Prevent hanging connections\n- **Monitor connections:** Track database connection usage\n- **Use connection pooling libraries:** Knex.js, Sequelize",
+      "keywords": ["connection pooling", "RDS Proxy", "connection limits", "cold starts", "global variables", "DynamoDB", "Aurora Data API", "connection reuse"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 18,
+      "tag": "serverless",
+      "question": "What are the security considerations specific to serverless applications?",
+      "answer": "**Serverless Security Challenges:**\n\n**1. Function-Level Security:**\n- **IAM permissions:** Principle of least privilege\n- **Environment variables:** Secure configuration management\n- **Code vulnerabilities:** Dependency scanning\n- **Runtime security:** Secure coding practices\n\n**2. Event Source Security:**\n- **API Gateway:** Authentication and authorization\n- **Input validation:** Sanitize all inputs\n- **Rate limiting:** Prevent abuse\n- **CORS configuration:** Cross-origin security\n\n**3. Data Security:**\n- **Encryption at rest:** Database and storage encryption\n- **Encryption in transit:** HTTPS/TLS for all communications\n- **Secrets management:** AWS Secrets Manager, Parameter Store\n- **Data access patterns:** Secure database access\n\n**Security Best Practices:**\n- **Regular updates:** Keep dependencies current\n- **Security scanning:** SAST/DAST tools\n- **Logging and monitoring:** Detect suspicious activity\n- **Network security:** VPC configuration when needed\n- **Function isolation:** Separate functions by responsibility\n\n**Tools:**\n- **AWS Security Hub:** Centralized security findings\n- **GuardDuty:** Threat detection\n- **Snyk:** Vulnerability scanning",
+      "keywords": ["IAM permissions", "least privilege", "input validation", "encryption", "secrets management", "security scanning", "GuardDuty", "function isolation"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 19,
+      "tag": "serverless",
+      "question": "How do you implement microservices architecture using serverless?",
+      "answer": "**Serverless Microservices Architecture:**\n\n**Design Principles:**\n- **Function per service:** Each microservice as separate functions\n- **Domain-driven design:** Organize by business capabilities\n- **Loose coupling:** Services communicate via events/APIs\n- **Independent deployment:** Deploy services separately\n\n**Communication Patterns:**\n\n**1. Synchronous:**\n- **API Gateway + Lambda:** REST APIs between services\n- **Service-to-service calls:** Direct Lambda invocation\n\n**2. Asynchronous:**\n- **Event-driven:** SNS, SQS, EventBridge\n- **Message queues:** Decouple service dependencies\n- **Event sourcing:** Store events, rebuild state\n\n**Data Management:**\n- **Database per service:** Each service owns its data\n- **DynamoDB:** Serverless NoSQL database\n- **Aurora Serverless:** Relational database option\n\n**Challenges and Solutions:**\n- **Distributed tracing:** AWS X-Ray for request tracking\n- **Service discovery:** API Gateway routing\n- **Error handling:** Circuit breakers, retries\n- **Testing:** Contract testing, integration tests\n\n**Benefits:**\n- **Independent scaling:** Each service scales independently\n- **Technology diversity:** Different runtimes per service\n- **Team autonomy:** Independent development teams",
+      "keywords": ["microservices architecture", "domain-driven design", "loose coupling", "event-driven", "database per service", "distributed tracing", "service discovery"],
+      "difficulty": "hard"
+    }
+  ]
+}

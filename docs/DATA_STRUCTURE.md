@@ -64,7 +64,6 @@ interface Question {
 - `mongodb`
 - `docker`
 - `graphql`
-- `apis`
 - `csharp`
 - `rust`
 - `golang`
@@ -81,7 +80,7 @@ type TechnologyTag =
   | 'javascript' | 'typescript' | 'react' | 'nextjs' | 'nodejs' 
   | 'expressjs' | 'nestjs' | 'python' | 'django' | 'flask' 
   | 'fastapi' | 'cicd' | 'aws' | 'serverless' | 'postgresql' 
-  | 'mongodb' | 'docker' | 'graphql' | 'apis' | 'csharp' 
+  | 'mongodb' | 'docker' | 'graphql' | 'csharp' 
   | 'rust' | 'golang' | 'gin';
 
 type CategoryTag = 'systems_design' | 'behaviour';

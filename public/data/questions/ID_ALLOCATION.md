@@ -30,6 +30,7 @@ This document defines the ID ranges for different question categories to avoid c
 | **APIs**          | 16000-16999  | 20           |
 | **Docker**        | 17000-17999  | 20           |
 | **Serverless**    | 18000-18999  | 20           |
+| **Celery**        | 23000-23999  | 10           |
 
 ## Future Expansion
 

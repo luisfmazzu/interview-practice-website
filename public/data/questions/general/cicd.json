@@ -1,0 +1,165 @@
+{
+  "technology": "cicd",
+  "questions": [
+    {
+      "id": 0,
+      "tag": "cicd",
+      "question": "What is CI/CD and why is it important in software development?",
+      "answer": "**CI/CD** stands for Continuous Integration and Continuous Deployment/Delivery.\n\n**Continuous Integration (CI):**\n- Automatically integrates code changes from multiple developers\n- Runs automated tests on every commit\n- Detects integration issues early\n\n**Continuous Deployment/Delivery (CD):**\n- **Continuous Delivery:** Automatically prepares code for production deployment\n- **Continuous Deployment:** Automatically deploys to production after passing tests\n\n**Benefits:**\n- Faster feedback loops\n- Reduced integration problems\n- Higher code quality\n- Faster time to market\n- Reduced manual errors\n- Better collaboration",
+      "keywords": ["continuous integration", "continuous deployment", "continuous delivery", "automation", "testing", "integration", "deployment"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 1,
+      "tag": "cicd",
+      "question": "Explain the difference between Continuous Delivery and Continuous Deployment.",
+      "answer": "**Continuous Delivery:**\n- Code is automatically prepared for release to production\n- Requires manual approval/trigger for production deployment\n- Every change is deployable but not automatically deployed\n- Human gate before production\n\n**Continuous Deployment:**\n- Code is automatically deployed to production after passing all tests\n- No manual intervention required\n- Every successful change goes live immediately\n- Fully automated pipeline\n\n**When to use:**\n- **Continuous Delivery:** High-stakes environments, regulatory requirements, or need for manual validation\n- **Continuous Deployment:** Fast-moving products, good test coverage, mature DevOps practices",
+      "keywords": ["continuous delivery", "continuous deployment", "manual approval", "automation", "production deployment", "human gate"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 2,
+      "tag": "cicd",
+      "question": "What are the key stages of a typical CI/CD pipeline?",
+      "answer": "**Typical CI/CD Pipeline Stages:**\n\n**1. Source Control:**\n- Code commit triggers pipeline\n- Version control integration\n\n**2. Build:**\n- Compile code\n- Package dependencies\n- Create artifacts\n\n**3. Test:**\n- Unit tests\n- Integration tests\n- Code quality checks\n- Security scans\n\n**4. Deploy to Staging:**\n- Deploy to staging environment\n- Run acceptance tests\n- Performance testing\n\n**5. Deploy to Production:**\n- Production deployment\n- Health checks\n- Monitoring and rollback capabilities\n\n**6. Monitor:**\n- Application monitoring\n- Log analysis\n- Performance metrics",
+      "keywords": ["pipeline stages", "build", "test", "deploy", "staging", "production", "monitoring", "artifacts"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 3,
+      "tag": "cicd",
+      "question": "What is a build artifact and why is it important?",
+      "answer": "A **build artifact** is the compiled, packaged output of your build process that can be deployed to different environments.\n\n**Examples:**\n- JAR/WAR files (Java)\n- Docker images\n- NPM packages\n- ZIP archives\n- Executable binaries\n\n**Importance:**\n- **Consistency:** Same artifact deployed across all environments\n- **Traceability:** Links deployments to specific code versions\n- **Rollback capability:** Can redeploy previous artifacts\n- **Efficiency:** No need to rebuild for each environment\n- **Security:** Signed artifacts ensure integrity\n\n**Best Practices:**\n- Version artifacts clearly\n- Store in artifact repository\n- Keep artifacts immutable\n- Include metadata and checksums",
+      "keywords": ["build artifact", "deployment", "consistency", "traceability", "rollback", "artifact repository", "versioning"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 4,
+      "tag": "cicd",
+      "question": "Explain the concept of 'Infrastructure as Code' (IaC) in CI/CD.",
+      "answer": "**Infrastructure as Code (IaC)** is the practice of managing and provisioning infrastructure through code rather than manual processes.\n\n**Key Concepts:**\n- Infrastructure defined in version-controlled files\n- Declarative or imperative configuration\n- Automated provisioning and management\n\n**Tools:**\n- **Terraform:** Multi-cloud infrastructure provisioning\n- **CloudFormation:** AWS-specific IaC\n- **Ansible:** Configuration management\n- **Kubernetes manifests:** Container orchestration\n\n**Benefits in CI/CD:**\n- **Reproducible environments:** Identical infrastructure across stages\n- **Version control:** Track infrastructure changes\n- **Automated deployment:** Infrastructure and application together\n- **Disaster recovery:** Rebuild infrastructure from code\n- **Cost management:** Tear down/rebuild environments as needed",
+      "keywords": ["infrastructure as code", "IaC", "terraform", "cloudformation", "ansible", "version control", "automation", "reproducible"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 5,
+      "tag": "cicd",
+      "question": "What are different branching strategies for CI/CD?",
+      "answer": "**Common Branching Strategies:**\n\n**1. Git Flow:**\n- Main, develop, feature, release, hotfix branches\n- Good for scheduled releases\n- More complex workflow\n\n**2. GitHub Flow:**\n- Main branch + feature branches\n- Simple, continuous deployment friendly\n- Pull requests for all changes\n\n**3. GitLab Flow:**\n- Main branch with environment branches\n- production, staging branches\n- Good for staged deployments\n\n**4. Trunk-based Development:**\n- Single main branch\n- Short-lived feature branches\n- Frequent integration\n- Supports continuous deployment\n\n**CI/CD Considerations:**\n- Feature branches trigger CI builds\n- Main branch deployments\n- Environment-specific pipelines",
+      "keywords": ["branching strategy", "git flow", "github flow", "gitlab flow", "trunk-based", "feature branches", "main branch"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 6,
+      "tag": "cicd",
+      "question": "What is blue-green deployment and what are its benefits?",
+      "answer": "**Blue-Green Deployment** is a technique where you maintain two identical production environments (Blue and Green) and switch traffic between them.\n\n**Process:**\n1. Blue environment serves current production traffic\n2. Deploy new version to Green environment\n3. Test Green environment thoroughly\n4. Switch traffic from Blue to Green\n5. Keep Blue as rollback option\n\n**Benefits:**\n- **Zero downtime:** Instant cutover\n- **Easy rollback:** Switch back to previous environment\n- **Full testing:** Test in production-like environment\n- **Risk reduction:** Isolated deployment testing\n\n**Drawbacks:**\n- **Cost:** Requires double infrastructure\n- **Database challenges:** Data synchronization issues\n- **Resource intensive:** Not suitable for all applications\n\n**Best for:** Applications where downtime is unacceptable",
+      "keywords": ["blue-green deployment", "zero downtime", "rollback", "production environment", "traffic switching", "deployment strategy"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 7,
+      "tag": "cicd",
+      "question": "What is canary deployment and when would you use it?",
+      "answer": "**Canary Deployment** gradually rolls out changes to a small subset of users before full deployment.\n\n**Process:**\n1. Deploy new version to small percentage of infrastructure\n2. Route small portion of traffic to new version\n3. Monitor metrics and user feedback\n4. Gradually increase traffic if successful\n5. Complete rollout or rollback based on results\n\n**Benefits:**\n- **Risk mitigation:** Limited impact if issues occur\n- **Real user feedback:** Test with actual users\n- **Gradual validation:** Monitor performance incrementally\n- **Easy rollback:** Quick revert for small user base\n\n**Use Cases:**\n- Critical applications\n- Large user bases\n- When uncertain about impact\n- A/B testing scenarios\n\n**Tools:** Kubernetes, Istio, AWS App Mesh, feature flags",
+      "keywords": ["canary deployment", "gradual rollout", "risk mitigation", "traffic routing", "monitoring", "rollback", "feature flags"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 8,
+      "tag": "cicd",
+      "question": "What are the different types of testing in a CI/CD pipeline?",
+      "answer": "**Testing Pyramid in CI/CD:**\n\n**1. Unit Tests:**\n- Test individual components/functions\n- Fast execution, run on every commit\n- High code coverage\n\n**2. Integration Tests:**\n- Test component interactions\n- Database, API, service integration\n- Medium execution time\n\n**3. Contract Tests:**\n- API contract validation\n- Consumer-driven contracts\n- Service interface testing\n\n**4. End-to-End Tests:**\n- Full user journey testing\n- UI and system integration\n- Slower execution, fewer tests\n\n**5. Performance Tests:**\n- Load, stress, volume testing\n- Response time validation\n- Run in staging environment\n\n**6. Security Tests:**\n- Vulnerability scanning\n- Dependency checks\n- Code security analysis",
+      "keywords": ["testing pyramid", "unit tests", "integration tests", "contract tests", "end-to-end", "performance tests", "security tests"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 9,
+      "tag": "cicd",
+      "question": "What is a pipeline as code and what are its advantages?",
+      "answer": "**Pipeline as Code** means defining your CI/CD pipeline configuration in version-controlled files rather than through UI configurations.\n\n**Examples:**\n- `.github/workflows/ci.yml` (GitHub Actions)\n- `.gitlab-ci.yml` (GitLab CI)\n- `Jenkinsfile` (Jenkins)\n- `azure-pipelines.yml` (Azure DevOps)\n\n**Advantages:**\n- **Version Control:** Track pipeline changes over time\n- **Reproducibility:** Recreate pipelines easily\n- **Code Review:** Peer review of pipeline changes\n- **Branching:** Different pipelines for different branches\n- **Backup and Recovery:** Pipeline configuration preserved\n- **Documentation:** Self-documenting infrastructure\n- **Collaboration:** Multiple team members can modify\n\n**Best Practices:**\n- Keep pipeline files with source code\n- Use descriptive job and step names\n- Parameterize configurations\n- Validate pipeline syntax",
+      "keywords": ["pipeline as code", "version control", "reproducibility", "configuration", "jenkinsfile", "yaml", "collaboration"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 10,
+      "tag": "cicd",
+      "question": "What are environment variables and secrets management in CI/CD?",
+      "answer": "**Environment Variables** store configuration data that varies between environments without hardcoding values.\n\n**Common Uses:**\n- Database connections\n- API endpoints\n- Feature flags\n- Environment-specific settings\n\n**Secrets Management:**\n- Sensitive data like passwords, API keys, certificates\n- Should never be stored in code or plain text\n\n**Best Practices:**\n- **Use secret management tools:** HashiCorp Vault, AWS Secrets Manager, Azure Key Vault\n- **Encryption at rest and in transit**\n- **Principle of least privilege:** Limit access to secrets\n- **Rotation:** Regularly update secrets\n- **Audit logging:** Track secret access\n\n**CI/CD Integration:**\n- Inject secrets at runtime\n- Use pipeline-specific secret stores\n- Mask secrets in logs\n- Separate secrets per environment",
+      "keywords": ["environment variables", "secrets management", "configuration", "security", "vault", "encryption", "least privilege", "rotation"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 11,
+      "tag": "cicd",
+      "question": "What is the role of monitoring and observability in CI/CD?",
+      "answer": "**Monitoring and Observability** provide visibility into application and infrastructure health throughout the CI/CD lifecycle.\n\n**Key Components:**\n\n**1. Metrics:**\n- Application performance metrics\n- Infrastructure metrics (CPU, memory, disk)\n- Business metrics (user engagement, revenue)\n\n**2. Logs:**\n- Application logs\n- Infrastructure logs\n- Audit trails\n\n**3. Traces:**\n- Distributed tracing\n- Request flow tracking\n- Performance bottleneck identification\n\n**CI/CD Integration:**\n- **Pipeline monitoring:** Track build/deploy success rates\n- **Automated rollbacks:** Trigger on metric thresholds\n- **Deployment validation:** Health checks after deployment\n- **Performance regression detection:** Compare metrics across deployments\n\n**Tools:** Prometheus, Grafana, ELK Stack, Jaeger, DataDog, New Relic",
+      "keywords": ["monitoring", "observability", "metrics", "logs", "traces", "rollbacks", "health checks", "performance", "prometheus", "grafana"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 12,
+      "tag": "cicd",
+      "question": "What are feature flags and how do they fit into CI/CD?",
+      "answer": "**Feature Flags** (feature toggles) are conditional statements that enable/disable features at runtime without code deployment.\n\n**Types:**\n- **Release flags:** Control feature rollout\n- **Experiment flags:** A/B testing\n- **Ops flags:** Circuit breakers, kill switches\n- **Permission flags:** Role-based feature access\n\n**CI/CD Benefits:**\n- **Decouple deployment from release:** Deploy code, control feature exposure\n- **Gradual rollouts:** Enable features for specific users/groups\n- **Quick rollbacks:** Disable features without redeployment\n- **Testing in production:** Validate features with real users\n- **Continuous deployment:** Deploy incomplete features safely\n\n**Implementation:**\n```javascript\nif (featureFlag.isEnabled('new-checkout-flow')) {\n  // New feature code\n} else {\n  // Existing feature code\n}\n```\n\n**Tools:** LaunchDarkly, Split, Unleash, ConfigCat",
+      "keywords": ["feature flags", "feature toggles", "runtime control", "gradual rollout", "A/B testing", "circuit breakers", "deployment decoupling"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 13,
+      "tag": "cicd",
+      "question": "What is trunk-based development and how does it support CI/CD?",
+      "answer": "**Trunk-based Development** is a branching model where developers integrate small, frequent changes directly into a single main branch (trunk).\n\n**Key Principles:**\n- All developers commit to main branch\n- Short-lived feature branches (< 1 day)\n- Frequent integration (multiple times per day)\n- Feature flags for incomplete features\n\n**CI/CD Support:**\n- **Continuous Integration:** Natural fit for frequent commits\n- **Faster feedback:** Issues detected quickly\n- **Reduced merge conflicts:** Small, frequent changes\n- **Simplified pipeline:** Single branch to build/deploy\n- **Continuous deployment:** Always-ready main branch\n\n**Requirements:**\n- **Strong test suite:** Catch issues early\n- **Feature flags:** Hide incomplete features\n- **Code review:** Maintain quality with frequent commits\n- **Monitoring:** Detect issues in production\n\n**Challenges:** Requires discipline, good testing, and mature practices",
+      "keywords": ["trunk-based development", "main branch", "frequent integration", "short-lived branches", "feature flags", "continuous integration"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 14,
+      "tag": "cicd",
+      "question": "What are the security considerations in CI/CD pipelines?",
+      "answer": "**Key Security Considerations:**\n\n**1. Pipeline Security:**\n- Secure pipeline execution environments\n- Isolated build agents\n- Network segmentation\n- Regular security updates\n\n**2. Secrets Management:**\n- Never store secrets in code\n- Use dedicated secret management tools\n- Rotate secrets regularly\n- Principle of least privilege\n\n**3. Code Security:**\n- Static Application Security Testing (SAST)\n- Dynamic Application Security Testing (DAST)\n- Software Composition Analysis (SCA)\n- Container image scanning\n\n**4. Access Control:**\n- Role-based access control (RBAC)\n- Multi-factor authentication\n- Audit logs for all actions\n- Approval workflows for production\n\n**5. Supply Chain Security:**\n- Dependency scanning\n- Signed artifacts\n- Provenance tracking\n- Vulnerability management\n\n**Tools:** Snyk, SonarQube, OWASP ZAP, Twistlock, Aqua Security",
+      "keywords": ["pipeline security", "secrets management", "SAST", "DAST", "SCA", "access control", "supply chain security", "vulnerability scanning"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 15,
+      "tag": "cicd",
+      "question": "What is GitOps and how does it relate to CI/CD?",
+      "answer": "**GitOps** is an operational framework that uses Git as the single source of truth for declarative infrastructure and application configuration.\n\n**Core Principles:**\n1. **Declarative:** Entire system described declaratively\n2. **Versioned and Immutable:** Git as source of truth\n3. **Pulled Automatically:** Changes pulled, not pushed\n4. **Continuously Reconciled:** Actual state matches desired state\n\n**GitOps Workflow:**\n1. Developer commits code changes\n2. CI pipeline builds and tests\n3. CI updates deployment manifests in Git\n4. GitOps operator detects changes\n5. Operator applies changes to target environment\n\n**Benefits:**\n- **Better security:** No direct cluster access needed\n- **Audit trail:** All changes tracked in Git\n- **Rollback capability:** Easy revert to previous state\n- **Disaster recovery:** Reconstruct from Git history\n\n**Tools:** ArgoCD, Flux, Jenkins X, GitLab GitOps",
+      "keywords": ["gitops", "declarative", "git source of truth", "continuous reconciliation", "argocd", "flux", "kubernetes", "deployment manifests"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 16,
+      "tag": "cicd",
+      "question": "What are the challenges and solutions for database changes in CI/CD?",
+      "answer": "**Database CI/CD Challenges:**\n\n**1. Data Persistence:**\n- Cannot replace database like application code\n- Data must be preserved during schema changes\n- Backward compatibility requirements\n\n**2. State Management:**\n- Databases are stateful vs. stateless applications\n- Migration dependencies and ordering\n- Rollback complexity\n\n**Solutions:**\n\n**Database Migration Strategies:**\n- **Versioned migrations:** Sequential, numbered migration files\n- **Blue-green with data sync:** Replicate data between environments\n- **Expand-contract pattern:** Add new, deprecate old, remove old\n- **Feature flags for schema:** Gradual schema rollout\n\n**Best Practices:**\n- **Backward compatible changes:** Avoid breaking existing code\n- **Test migrations:** Validate on production-like data\n- **Monitoring:** Track migration performance and impact\n- **Rollback strategy:** Plan for schema rollbacks\n\n**Tools:** Flyway, Liquibase, Alembic, Rails migrations",
+      "keywords": ["database migrations", "schema changes", "data persistence", "backward compatibility", "expand-contract", "flyway", "liquibase"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 17,
+      "tag": "cicd",
+      "question": "What is the difference between mutable and immutable infrastructure in CI/CD?",
+      "answer": "**Mutable Infrastructure:**\n- Servers are updated in-place\n- Changes applied to existing infrastructure\n- Configuration drift over time\n- Difficult to reproduce exactly\n\n**Immutable Infrastructure:**\n- Servers are replaced, not updated\n- New instances created for each deployment\n- Consistent, reproducible environments\n- Easier rollbacks and disaster recovery\n\n**Immutable Infrastructure Benefits:**\n- **Consistency:** Identical environments every time\n- **Predictability:** No configuration drift\n- **Rollback:** Replace with previous version\n- **Security:** Fresh instances reduce attack surface\n- **Testing:** Validate entire deployment process\n\n**Implementation Approaches:**\n- **Container-based:** Docker images, Kubernetes\n- **VM images:** AMIs, machine images\n- **Infrastructure as Code:** Terraform, CloudFormation\n\n**CI/CD Impact:**\n- Simpler deployment pipelines\n- Better environment parity\n- Reduced deployment risks",
+      "keywords": ["mutable infrastructure", "immutable infrastructure", "configuration drift", "reproducible environments", "containers", "VM images", "IaC"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 18,
+      "tag": "cicd",
+      "question": "What are microservices CI/CD considerations and challenges?",
+      "answer": "**Microservices CI/CD Challenges:**\n\n**1. Service Dependencies:**\n- Complex inter-service relationships\n- Testing service interactions\n- Coordinated deployments\n\n**2. Pipeline Complexity:**\n- Multiple pipelines per service\n- Different deployment schedules\n- Service versioning strategies\n\n**3. Testing Challenges:**\n- Integration testing across services\n- Contract testing between services\n- End-to-end testing complexity\n\n**Solutions:**\n\n**Independent Deployments:**\n- **Service per repository:** Independent CI/CD pipelines\n- **API versioning:** Backward compatibility\n- **Circuit breakers:** Handle service failures\n\n**Testing Strategies:**\n- **Contract testing:** Pact, Spring Cloud Contract\n- **Service virtualization:** Mock external dependencies\n- **Chaos engineering:** Test resilience\n\n**Orchestration:**\n- **Service mesh:** Istio, Linkerd for traffic management\n- **API gateway:** Centralized routing and policies\n- **Distributed tracing:** Monitor request flows",
+      "keywords": ["microservices", "service dependencies", "contract testing", "service mesh", "api versioning", "circuit breakers", "distributed tracing"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 19,
+      "tag": "cicd",
+      "question": "What are CI/CD metrics and KPIs you should track?",
+      "answer": "**Key CI/CD Metrics:**\n\n**Deployment Frequency:**\n- How often deployments occur\n- Higher frequency indicates mature CI/CD\n- Industry benchmark: Multiple per day\n\n**Lead Time for Changes:**\n- Time from commit to production\n- Measures development efficiency\n- Target: Hours to days, not weeks\n\n**Mean Time to Recovery (MTTR):**\n- Time to recover from failures\n- Incident response effectiveness\n- Target: Minutes to hours\n\n**Change Failure Rate:**\n- Percentage of deployments causing failures\n- Quality and testing effectiveness\n- Target: 0-15%\n\n**Additional Metrics:**\n- **Build success rate:** Pipeline reliability\n- **Test coverage:** Code quality indicator\n- **Pipeline execution time:** Developer productivity\n- **Mean Time Between Failures (MTBF):** System reliability\n\n**DORA Metrics:** Industry standard for measuring DevOps performance\n\n**Tools:** GitHub Insights, GitLab Analytics, Jenkins metrics, custom dashboards",
+      "keywords": ["DORA metrics", "deployment frequency", "lead time", "MTTR", "change failure rate", "build success rate", "test coverage", "KPIs"],
+      "difficulty": "medium"
+    }
+  ]
+}

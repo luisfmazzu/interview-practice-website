@@ -1,0 +1,165 @@
+{
+  "technology": "docker",
+  "questions": [
+    {
+      "id": 0,
+      "tag": "docker",
+      "question": "What is Docker and how does it differ from virtual machines?",
+      "answer": "**Docker** is a containerization platform that packages applications and their dependencies into lightweight, portable containers.\n\n**Docker vs Virtual Machines:**\n\n**Docker Containers:**\n- **Shared OS kernel:** All containers share the host OS kernel\n- **Lightweight:** Minimal overhead, faster startup\n- **Resource efficient:** Lower memory and CPU usage\n- **Process isolation:** Isolated at process level\n- **Portable:** Run anywhere with Docker runtime\n\n**Virtual Machines:**\n- **Full OS:** Each VM runs complete operating system\n- **Resource intensive:** Higher memory and CPU overhead\n- **Hardware isolation:** Complete hardware virtualization\n- **Slower startup:** Boot entire OS\n- **Hypervisor dependency:** Requires virtualization layer\n\n**Benefits of Docker:**\n- Consistent environments across development, testing, production\n- Faster deployment and scaling\n- Better resource utilization\n- Simplified dependency management",
+      "keywords": ["containerization", "virtual machines", "OS kernel", "lightweight", "process isolation", "portability", "resource efficiency"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 1,
+      "tag": "docker",
+      "question": "Explain the Docker architecture and its main components.",
+      "answer": "**Docker Architecture** follows a client-server model with the following components:\n\n**1. Docker Client:**\n- Command-line interface (CLI)\n- Communicates with Docker daemon via REST API\n- Commands: `docker build`, `docker run`, `docker pull`\n\n**2. Docker Daemon (dockerd):**\n- Background service managing Docker objects\n- Handles container lifecycle\n- Manages images, networks, volumes\n\n**3. Docker Images:**\n- Read-only templates for creating containers\n- Built from Dockerfile instructions\n- Layered filesystem (union filesystem)\n\n**4. Docker Containers:**\n- Running instances of Docker images\n- Isolated processes with own filesystem\n- Can be started, stopped, moved, deleted\n\n**5. Docker Registry:**\n- Storage for Docker images (Docker Hub, private registries)\n- Push/pull images to/from registry\n\n**6. Dockerfile:**\n- Text file with instructions to build images\n- Defines base image, dependencies, commands\n\n**Workflow:** Client → Daemon → Images → Containers → Registry",
+      "keywords": ["client-server model", "Docker daemon", "Docker images", "containers", "registry", "Dockerfile", "REST API", "layered filesystem"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 2,
+      "tag": "docker",
+      "question": "What is a Dockerfile and what are the most important instructions?",
+      "answer": "A **Dockerfile** is a text file containing instructions to build a Docker image automatically.\n\n**Essential Dockerfile Instructions:**\n\n**FROM:** Base image\n```dockerfile\nFROM node:16-alpine\n```\n\n**WORKDIR:** Set working directory\n```dockerfile\nWORKDIR /app\n```\n\n**COPY/ADD:** Copy files from host to container\n```dockerfile\nCOPY package*.json ./\nADD https://example.com/file.tar.gz /tmp/\n```\n\n**RUN:** Execute commands during build\n```dockerfile\nRUN npm install --production\n```\n\n**EXPOSE:** Document ports the container listens on\n```dockerfile\nEXPOSE 3000\n```\n\n**CMD:** Default command when container starts\n```dockerfile\nCMD [\"npm\", \"start\"]\n```\n\n**ENTRYPOINT:** Configure container as executable\n```dockerfile\nENTRYPOINT [\"node\", \"server.js\"]\n```\n\n**ENV:** Set environment variables\n```dockerfile\nENV NODE_ENV=production\n```\n\n**Best Practice:** Use multi-stage builds to reduce image size",
+      "keywords": ["Dockerfile", "FROM", "WORKDIR", "COPY", "RUN", "EXPOSE", "CMD", "ENTRYPOINT", "ENV", "multi-stage builds"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 3,
+      "tag": "docker",
+      "question": "What are Docker layers and how do they work?",
+      "answer": "**Docker Layers** are read-only filesystem layers that make up a Docker image, created by each instruction in a Dockerfile.\n\n**How Layers Work:**\n- Each Dockerfile instruction creates a new layer\n- Layers are stacked on top of each other\n- Only the top layer is writable (container layer)\n- Layers are cached and reusable across images\n\n**Example:**\n```dockerfile\nFROM ubuntu:20.04        # Layer 1: Base Ubuntu\nRUN apt-get update       # Layer 2: Package update\nRUN apt-get install -y   # Layer 3: Package install\nCOPY app.js /app/        # Layer 4: Copy application\nCMD [\"node\", \"/app/app.js\"] # Layer 5: Command\n```\n\n**Benefits:**\n- **Caching:** Unchanged layers reused in subsequent builds\n- **Storage efficiency:** Shared layers across multiple images\n- **Fast builds:** Only modified layers need rebuilding\n- **Version control:** Each layer has unique SHA256 hash\n\n**Best Practices:**\n- Minimize number of layers\n- Combine related RUN commands\n- Order instructions by change frequency (least to most)\n- Use .dockerignore to exclude unnecessary files",
+      "keywords": ["Docker layers", "filesystem layers", "layer caching", "union filesystem", "SHA256 hash", "build optimization", ".dockerignore"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 4,
+      "tag": "docker",
+      "question": "Explain the difference between CMD and ENTRYPOINT in Dockerfile.",
+      "answer": "**CMD** and **ENTRYPOINT** both specify commands to run when a container starts, but they behave differently.\n\n**CMD:**\n- Provides default arguments for container\n- Can be overridden by command-line arguments\n- Only the last CMD instruction is effective\n\n**ENTRYPOINT:**\n- Configures container to run as an executable\n- Cannot be overridden (only appended to)\n- Command-line arguments become parameters\n\n**Examples:**\n\n**Using CMD only:**\n```dockerfile\nFROM alpine\nCMD [\"echo\", \"Hello World\"]\n```\n```bash\ndocker run myimage            # Output: Hello World\ndocker run myimage echo Hi    # Output: Hi (CMD overridden)\n```\n\n**Using ENTRYPOINT only:**\n```dockerfile\nFROM alpine\nENTRYPOINT [\"echo\"]\n```\n```bash\ndocker run myimage Hello      # Output: Hello\ndocker run myimage Hi There   # Output: Hi There\n```\n\n**Using both (recommended):**\n```dockerfile\nFROM alpine\nENTRYPOINT [\"echo\"]\nCMD [\"Hello World\"]\n```\n```bash\ndocker run myimage            # Output: Hello World\ndocker run myimage Hi         # Output: Hi\n```",
+      "keywords": ["CMD", "ENTRYPOINT", "container startup", "command override", "default arguments", "executable container", "parameter passing"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 5,
+      "tag": "docker",
+      "question": "What are Docker volumes and why are they important?",
+      "answer": "**Docker Volumes** are the preferred mechanism for persisting data generated and used by Docker containers.\n\n**Types of Data Persistence:**\n\n**1. Volumes (Recommended):**\n- Managed by Docker\n- Stored outside container filesystem\n- Persist after container removal\n- Can be shared between containers\n\n**2. Bind Mounts:**\n- Mount host directory into container\n- Direct access to host filesystem\n- Host path dependent\n\n**3. tmpfs Mounts:**\n- Stored in host memory\n- Temporary, deleted when container stops\n\n**Volume Commands:**\n```bash\n# Create volume\ndocker volume create myvolume\n\n# List volumes\ndocker volume ls\n\n# Use volume in container\ndocker run -v myvolume:/data alpine\n\n# Bind mount\ndocker run -v /host/path:/container/path alpine\n```\n\n**Benefits:**\n- **Data persistence:** Survives container lifecycle\n- **Performance:** Better I/O performance than bind mounts\n- **Sharing:** Multiple containers can use same volume\n- **Backup:** Easy to backup and restore\n- **Driver support:** Various storage drivers available",
+      "keywords": ["Docker volumes", "data persistence", "bind mounts", "tmpfs", "container lifecycle", "data sharing", "storage drivers", "backup"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 6,
+      "tag": "docker",
+      "question": "What is Docker Compose and when would you use it?",
+      "answer": "**Docker Compose** is a tool for defining and running multi-container Docker applications using a YAML file.\n\n**Key Features:**\n- **Multi-container orchestration:** Define multiple services\n- **Service dependencies:** Control startup order\n- **Environment management:** Different configs for dev/prod\n- **Networking:** Automatic network creation between services\n- **Volume management:** Shared storage between containers\n\n**Example docker-compose.yml:**\n```yaml\nversion: '3.8'\nservices:\n  web:\n    build: .\n    ports:\n      - \"3000:3000\"\n    depends_on:\n      - db\n    environment:\n      - NODE_ENV=development\n  \n  db:\n    image: postgres:13\n    environment:\n      - POSTGRES_DB=myapp\n      - POSTGRES_PASSWORD=secret\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n\nvolumes:\n  postgres_data:\n```\n\n**Common Commands:**\n```bash\ndocker-compose up -d      # Start services in background\ndocker-compose down       # Stop and remove containers\ndocker-compose logs       # View service logs\ndocker-compose scale web=3 # Scale service to 3 instances\n```\n\n**Use Cases:** Development environments, testing, simple production deployments, CI/CD pipelines",
+      "keywords": ["Docker Compose", "multi-container", "YAML configuration", "service dependencies", "orchestration", "development environment", "scaling"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 7,
+      "tag": "docker",
+      "question": "How do Docker networks work and what are the different network types?",
+      "answer": "**Docker Networks** enable communication between containers and external systems.\n\n**Network Types:**\n\n**1. Bridge (Default):**\n- Default network for containers\n- Internal private network on host\n- Containers can communicate by IP or name\n- NAT for external communication\n\n**2. Host:**\n- Container uses host's network directly\n- No network isolation\n- Better performance, less security\n\n**3. None:**\n- No network access\n- Complete network isolation\n- Loopback interface only\n\n**4. Overlay:**\n- Multi-host networking\n- Used in Docker Swarm\n- Containers across different hosts communicate\n\n**5. Custom Bridge:**\n- User-defined bridge networks\n- Better isolation and DNS resolution\n- Recommended for multi-container apps\n\n**Network Commands:**\n```bash\n# Create custom network\ndocker network create mynetwork\n\n# Run container on specific network\ndocker run --network mynetwork nginx\n\n# Connect running container to network\ndocker network connect mynetwork container_name\n\n# Inspect network\ndocker network inspect mynetwork\n```\n\n**Benefits:** Service discovery, isolation, load balancing, security segmentation",
+      "keywords": ["Docker networks", "bridge network", "host network", "overlay network", "network isolation", "service discovery", "custom networks", "multi-host"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 8,
+      "tag": "docker",
+      "question": "What are multi-stage builds and how do they optimize Docker images?",
+      "answer": "**Multi-stage builds** allow using multiple FROM statements in a Dockerfile to create smaller, more secure final images.\n\n**Problem with Single-stage Builds:**\n- Build tools and dependencies included in final image\n- Larger image sizes\n- Potential security vulnerabilities from build tools\n\n**Multi-stage Build Example:**\n```dockerfile\n# Build stage\nFROM node:16 AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm run build\n\n# Production stage\nFROM node:16-alpine AS production\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install --only=production\nCOPY --from=builder /app/dist ./dist\nEXPOSE 3000\nCMD [\"npm\", \"start\"]\n```\n\n**Benefits:**\n- **Smaller images:** Only production artifacts in final stage\n- **Security:** No build tools in production image\n- **Separation of concerns:** Build vs runtime environments\n- **Caching:** Each stage cached independently\n\n**Advanced Techniques:**\n- **Named stages:** Reference specific build stages\n- **Copy from external images:** `COPY --from=nginx:latest`\n- **Target specific stage:** `docker build --target builder`\n\n**Use Cases:** Compiled languages (Go, Rust), frontend builds, removing build dependencies",
+      "keywords": ["multi-stage builds", "image optimization", "build stage", "production stage", "smaller images", "security", "build dependencies", "named stages"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 9,
+      "tag": "docker",
+      "question": "How do you handle secrets and sensitive data in Docker?",
+      "answer": "**Managing Secrets in Docker:**\n\n**❌ Bad Practices:**\n- Hardcoding secrets in Dockerfile\n- Using environment variables for secrets\n- Including secrets in image layers\n\n**✅ Recommended Approaches:**\n\n**1. Docker Secrets (Swarm Mode):**\n```bash\n# Create secret\necho \"mysecretpassword\" | docker secret create db_password -\n\n# Use in service\ndocker service create \\\n  --secret db_password \\\n  --name myapp \\\n  myimage\n```\n\n**2. External Secret Management:**\n- **HashiCorp Vault:** Enterprise secret management\n- **AWS Secrets Manager:** Cloud-native secrets\n- **Azure Key Vault:** Microsoft cloud secrets\n- **Kubernetes Secrets:** K8s native secret management\n\n**3. Runtime Secret Injection:**\n```dockerfile\n# Use init container or sidecar pattern\nFROM alpine\nRUN apk add --no-cache curl\nCMD [\"/bin/sh\", \"-c\", \"SECRET=$(curl vault:8200/secret) && myapp\"]\n```\n\n**4. Environment Variable Files:**\n```bash\n# Use .env files (not in image)\ndocker run --env-file secrets.env myapp\n```\n\n**Best Practices:**\n- Never include secrets in images\n- Use secret management systems\n- Rotate secrets regularly\n- Audit secret access\n- Use least privilege principle",
+      "keywords": ["Docker secrets", "secret management", "Vault", "environment variables", "runtime injection", "secret rotation", "least privilege", "security"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 10,
+      "tag": "docker",
+      "question": "What are the best practices for Docker security?",
+      "answer": "**Docker Security Best Practices:**\n\n**1. Image Security:**\n- **Use official base images:** Trusted, regularly updated\n- **Minimal base images:** Alpine, distroless for smaller attack surface\n- **Scan for vulnerabilities:** Use tools like Snyk, Clair, Trivy\n- **Keep images updated:** Regular security patches\n\n**2. Container Runtime Security:**\n- **Run as non-root user:** Avoid running processes as root\n```dockerfile\nRUN addgroup -g 1001 -S nodejs\nRUN adduser -S nextjs -u 1001\nUSER nextjs\n```\n\n**3. Resource Limits:**\n```bash\n# Prevent resource exhaustion\ndocker run --memory=\"512m\" --cpus=\"1.0\" myapp\n```\n\n**4. Network Security:**\n- **Custom networks:** Isolate containers\n- **Principle of least privilege:** Only expose necessary ports\n- **No privileged mode:** Avoid `--privileged` flag\n\n**5. Secrets Management:**\n- Never store secrets in images\n- Use Docker secrets or external secret management\n- Rotate secrets regularly\n\n**6. File System Security:**\n- **Read-only root filesystem:** `--read-only` flag\n- **No setuid/setgid:** `--security-opt no-new-privileges`\n\n**7. Monitoring and Logging:**\n- Container activity monitoring\n- Security event logging\n- Runtime security tools",
+      "keywords": ["Docker security", "official images", "vulnerability scanning", "non-root user", "resource limits", "network isolation", "read-only filesystem", "monitoring"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 11,
+      "tag": "docker",
+      "question": "How do you optimize Docker images for size and performance?",
+      "answer": "**Docker Image Optimization Strategies:**\n\n**1. Choose Right Base Image:**\n```dockerfile\n# Heavy (1GB+)\nFROM ubuntu:20.04\n\n# Light (80MB)\nFROM node:16-alpine\n\n# Minimal (2MB)\nFROM scratch\n```\n\n**2. Multi-stage Builds:**\n- Separate build and runtime environments\n- Copy only necessary artifacts\n\n**3. Minimize Layers:**\n```dockerfile\n# Bad: Multiple layers\nRUN apt-get update\nRUN apt-get install -y curl\nRUN apt-get clean\n\n# Good: Single layer\nRUN apt-get update && \\\n    apt-get install -y curl && \\\n    apt-get clean && \\\n    rm -rf /var/lib/apt/lists/*\n```\n\n**4. Use .dockerignore:**\n```dockerignore\nnode_modules\n.git\n*.md\n.env\ntests/\n```\n\n**5. Package Manager Optimizations:**\n```dockerfile\n# Node.js\nRUN npm ci --only=production && npm cache clean --force\n\n# Python\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Go\nRUN go build -ldflags=\"-w -s\" -o app\n```\n\n**6. Remove Unnecessary Files:**\n```dockerfile\nRUN apt-get update && \\\n    apt-get install -y package && \\\n    rm -rf /var/lib/apt/lists/*\n```\n\n**Performance Tips:**\n- Order layers by change frequency\n- Use specific tags, not 'latest'\n- Leverage build cache\n- Use Docker BuildKit for faster builds",
+      "keywords": ["image optimization", "base image selection", "multi-stage builds", "layer minimization", ".dockerignore", "package manager", "build cache", "BuildKit"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 12,
+      "tag": "docker",
+      "question": "What is Docker Swarm and how does it compare to Kubernetes?",
+      "answer": "**Docker Swarm** is Docker's native clustering and orchestration solution for managing multiple Docker hosts.\n\n**Docker Swarm Features:**\n- **Native integration:** Built into Docker Engine\n- **Simple setup:** Easy cluster initialization\n- **Service management:** Declarative service definitions\n- **Load balancing:** Built-in service discovery and routing\n- **Rolling updates:** Zero-downtime deployments\n- **Secrets management:** Encrypted secret distribution\n\n**Swarm Commands:**\n```bash\n# Initialize swarm\ndocker swarm init\n\n# Join worker node\ndocker swarm join --token TOKEN MANAGER-IP:2377\n\n# Deploy service\ndocker service create --replicas 3 --name web nginx\n\n# Scale service\ndocker service scale web=5\n```\n\n**Docker Swarm vs Kubernetes:**\n\n**Docker Swarm:**\n- ✅ Simpler to learn and deploy\n- ✅ Native Docker integration\n- ✅ Lightweight overhead\n- ❌ Less feature-rich\n- ❌ Smaller ecosystem\n\n**Kubernetes:**\n- ✅ More powerful and flexible\n- ✅ Larger ecosystem and community\n- ✅ Better for complex applications\n- ❌ Steeper learning curve\n- ❌ More complex setup\n\n**When to Choose:** Swarm for simple use cases, K8s for complex enterprise applications",
+      "keywords": ["Docker Swarm", "orchestration", "clustering", "service management", "Kubernetes comparison", "load balancing", "rolling updates", "native integration"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 13,
+      "tag": "docker",
+      "question": "How do you troubleshoot and debug Docker containers?",
+      "answer": "**Docker Debugging and Troubleshooting:**\n\n**1. Container Inspection:**\n```bash\n# View container details\ndocker inspect container_name\n\n# Check container processes\ndocker top container_name\n\n# View resource usage\ndocker stats container_name\n\n# Container logs\ndocker logs -f container_name\n```\n\n**2. Interactive Debugging:**\n```bash\n# Execute command in running container\ndocker exec -it container_name /bin/bash\n\n# Run container in interactive mode\ndocker run -it --rm image_name /bin/bash\n\n# Debug specific user\ndocker exec -it --user root container_name bash\n```\n\n**3. Network Debugging:**\n```bash\n# List networks\ndocker network ls\n\n# Inspect network\ndocker network inspect network_name\n\n# Test connectivity\ndocker exec container_name ping other_container\n```\n\n**4. Common Issues:**\n- **Container exits immediately:** Check CMD/ENTRYPOINT\n- **Permission denied:** User/file permissions issues\n- **Port not accessible:** Check port mapping and firewall\n- **DNS resolution:** Network configuration problems\n\n**5. Debugging Tools:**\n- **Docker Desktop:** GUI for container management\n- **Portainer:** Web-based management UI\n- **ctop:** Top-like interface for containers\n- **dive:** Analyze image layers\n\n**6. Health Checks:**\n```dockerfile\nHEALTHCHECK --interval=30s --timeout=3s \\\n  CMD curl -f http://localhost/ || exit 1\n```",
+      "keywords": ["Docker debugging", "container inspection", "interactive debugging", "network debugging", "common issues", "health checks", "troubleshooting tools"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 14,
+      "tag": "docker",
+      "question": "What are Docker health checks and how do you implement them?",
+      "answer": "**Docker Health Checks** monitor container health and determine if a container is working properly.\n\n**Health Check States:**\n- **starting:** Container is starting up\n- **healthy:** Container is working correctly\n- **unhealthy:** Container is not functioning properly\n\n**Implementation Methods:**\n\n**1. Dockerfile HEALTHCHECK:**\n```dockerfile\n# HTTP health check\nHEALTHCHECK --interval=30s --timeout=10s --retries=3 \\\n  CMD curl -f http://localhost:3000/health || exit 1\n\n# Custom script health check\nHEALTHCHECK --interval=1m --timeout=3s \\\n  CMD /app/health-check.sh\n\n# Database connection check\nHEALTHCHECK --interval=30s --timeout=5s --retries=3 \\\n  CMD pg_isready -U postgres || exit 1\n```\n\n**2. Docker Compose Health Checks:**\n```yaml\nservices:\n  web:\n    image: nginx\n    healthcheck:\n      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost\"]\n      interval: 30s\n      timeout: 10s\n      retries: 3\n      start_period: 60s\n```\n\n**3. Runtime Health Checks:**\n```bash\n# Run with health check\ndocker run -d --health-cmd=\"curl -f http://localhost\" nginx\n\n# Check health status\ndocker inspect --format='{{.State.Health.Status}}' container\n```\n\n**Best Practices:**\n- **Lightweight checks:** Fast, minimal resource usage\n- **Meaningful tests:** Test actual application functionality\n- **Proper timeouts:** Balance responsiveness and false positives\n- **Gradual rollouts:** Use with orchestration systems",
+      "keywords": ["health checks", "container monitoring", "HEALTHCHECK", "health states", "application monitoring", "orchestration", "service discovery"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 15,
+      "tag": "docker",
+      "question": "How do you implement logging and monitoring for Docker containers?",
+      "answer": "**Docker Logging and Monitoring:**\n\n**1. Container Logging:**\n\n**Log Drivers:**\n```bash\n# JSON file (default)\ndocker run --log-driver json-file --log-opt max-size=10m nginx\n\n# Syslog\ndocker run --log-driver syslog --log-opt syslog-address=tcp://logserver:514 nginx\n\n# Disable logging\ndocker run --log-driver none nginx\n```\n\n**Centralized Logging:**\n```yaml\n# ELK Stack with Docker Compose\nversion: '3.8'\nservices:\n  app:\n    image: myapp\n    logging:\n      driver: \"json-file\"\n      options:\n        max-size: \"10m\"\n        max-file: \"3\"\n  \n  filebeat:\n    image: elastic/filebeat:7.15.0\n    volumes:\n      - /var/lib/docker/containers:/var/lib/docker/containers:ro\n      - /var/run/docker.sock:/var/run/docker.sock\n```\n\n**2. Application Monitoring:**\n\n**Resource Monitoring:**\n```bash\n# Real-time stats\ndocker stats\n\n# Export metrics\ndocker run -d -p 8080:8080 prom/node-exporter\n```\n\n**3. Monitoring Solutions:**\n- **Prometheus + Grafana:** Metrics collection and visualization\n- **DataDog:** Commercial APM solution\n- **New Relic:** Application monitoring\n- **ELK Stack:** Elasticsearch, Logstash, Kibana\n\n**4. Best Practices:**\n- **Structured logging:** Use JSON format\n- **Log rotation:** Prevent disk space issues\n- **Application metrics:** Custom business metrics\n- **Health endpoints:** `/health`, `/metrics` endpoints",
+      "keywords": ["Docker logging", "log drivers", "centralized logging", "ELK stack", "monitoring", "Prometheus", "Grafana", "structured logging", "log rotation"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 16,
+      "tag": "docker",
+      "question": "What is the difference between COPY and ADD in Dockerfile?",
+      "answer": "**COPY vs ADD** are both Dockerfile instructions for adding files to images, but they have different capabilities.\n\n**COPY Instruction:**\n- **Basic file copying:** Local files/directories to container\n- **Simple and predictable:** Does exactly what it says\n- **Preserves metadata:** File permissions, timestamps\n- **Preferred choice:** Recommended for most use cases\n\n```dockerfile\n# Copy local files\nCOPY package.json /app/\nCOPY src/ /app/src/\n\n# Copy with specific ownership\nCOPY --chown=user:group files/ /app/\n```\n\n**ADD Instruction:**\n- **Extended functionality:** All COPY features plus more\n- **URL downloads:** Can fetch files from URLs\n- **Archive extraction:** Automatically extracts tar files\n- **Less predictable:** Magic behavior can be surprising\n\n```dockerfile\n# Download from URL\nADD https://example.com/file.tar.gz /tmp/\n\n# Auto-extract archives\nADD app.tar.gz /app/  # Extracts contents to /app/\n\n# Regular file copy (same as COPY)\nADD package.json /app/\n```\n\n**When to Use:**\n- **Use COPY:** For simple file copying (recommended default)\n- **Use ADD:** Only when you need URL downloads or auto-extraction\n\n**Best Practices:**\n- Prefer COPY for transparency\n- Use ADD only for specific features\n- Avoid ADD for regular file operations\n- Be explicit about extraction behavior",
+      "keywords": ["COPY", "ADD", "file copying", "URL downloads", "archive extraction", "Dockerfile instructions", "best practices", "predictable behavior"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 17,
+      "tag": "docker",
+      "question": "How do you handle persistent data and database containers?",
+      "answer": "**Managing Persistent Data in Docker:**\n\n**1. Database Container with Volume:**\n```bash\n# Create named volume\ndocker volume create postgres_data\n\n# Run PostgreSQL with persistent storage\ndocker run -d \\\n  --name postgres \\\n  -e POSTGRES_PASSWORD=secret \\\n  -v postgres_data:/var/lib/postgresql/data \\\n  postgres:13\n```\n\n**2. Docker Compose Database Setup:**\n```yaml\nversion: '3.8'\nservices:\n  db:\n    image: postgres:13\n    environment:\n      POSTGRES_DB: myapp\n      POSTGRES_PASSWORD: secret\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n      - ./init.sql:/docker-entrypoint-initdb.d/init.sql\n    ports:\n      - \"5432:5432\"\n  \n  app:\n    build: .\n    depends_on:\n      - db\n    environment:\n      DATABASE_URL: postgres://postgres:secret@db:5432/myapp\n\nvolumes:\n  postgres_data:\n```\n\n**3. Database Initialization:**\n```bash\n# Mount initialization scripts\n-v ./scripts:/docker-entrypoint-initdb.d/\n```\n\n**4. Best Practices:**\n- **Use named volumes:** Better than bind mounts for databases\n- **Regular backups:** Automate database backups\n- **Environment separation:** Different volumes per environment\n- **Data migration:** Version database schema changes\n- **Health checks:** Monitor database connectivity\n\n**5. Backup and Restore:**\n```bash\n# Backup\ndocker exec postgres pg_dump -U postgres myapp > backup.sql\n\n# Restore\ndocker exec -i postgres psql -U postgres myapp < backup.sql\n```",
+      "keywords": ["persistent data", "database containers", "named volumes", "database initialization", "backups", "data migration", "PostgreSQL", "MySQL"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 18,
+      "tag": "docker",
+      "question": "What are the differences between Docker containers and Docker images?",
+      "answer": "**Docker Images vs Containers:**\n\n**Docker Image:**\n- **Static template:** Read-only blueprint for containers\n- **Layered filesystem:** Built from Dockerfile instructions\n- **Shareable:** Can be distributed via registries\n- **Immutable:** Cannot be changed once built\n- **Storage:** Stored on disk, registry\n\n**Docker Container:**\n- **Running instance:** Live execution of an image\n- **Writable layer:** Adds thin writable layer on top of image\n- **Process:** Contains running application processes\n- **Stateful:** Can store data and state changes\n- **Lifecycle:** Can be started, stopped, destroyed\n\n**Relationship:**\n```bash\n# Image (template)\ndocker build -t myapp:v1 .\n\n# Container (running instance)\ndocker run -d --name myapp-container myapp:v1\n\n# Multiple containers from same image\ndocker run -d --name app1 myapp:v1\ndocker run -d --name app2 myapp:v1\n```\n\n**Key Differences:**\n\n| Aspect | Image | Container |\n|--------|-------|----------|\n| State | Immutable | Mutable |\n| Purpose | Template | Running instance |\n| Storage | Registry/Local | Memory/Disk |\n| Lifecycle | Build once | Start/Stop/Remove |\n| Data | No runtime data | Runtime data |\n\n**Analogy:** Image is like a class, Container is like an object instance",
+      "keywords": ["Docker images", "Docker containers", "static template", "running instance", "immutable", "writable layer", "lifecycle", "class vs object"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 19,
+      "tag": "docker",
+      "question": "How do you implement CI/CD pipelines with Docker?",
+      "answer": "**Docker in CI/CD Pipelines:**\n\n**1. Build Stage:**\n```yaml\n# GitHub Actions example\nname: CI/CD Pipeline\non: [push, pull_request]\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v2\n      \n      - name: Build Docker image\n        run: docker build -t myapp:${{ github.sha }} .\n      \n      - name: Run tests in container\n        run: docker run --rm myapp:${{ github.sha }} npm test\n```\n\n**2. Multi-stage Pipeline:**\n```dockerfile\n# Multi-stage Dockerfile for CI/CD\nFROM node:16 AS test\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm test\n\nFROM node:16-alpine AS production\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY --from=test /app/dist ./dist\nCMD [\"npm\", \"start\"]\n```\n\n**3. Registry Integration:**\n```bash\n# Build and push to registry\ndocker build -t registry.com/myapp:latest .\ndocker push registry.com/myapp:latest\n\n# Deploy to production\ndocker pull registry.com/myapp:latest\ndocker run -d --name myapp registry.com/myapp:latest\n```\n\n**4. Docker Compose for Testing:**\n```yaml\nversion: '3.8'\nservices:\n  test:\n    build: .\n    command: npm test\n    depends_on:\n      - db\n  db:\n    image: postgres:13\n    environment:\n      POSTGRES_PASSWORD: test\n```\n\n**Benefits:**\n- **Consistent environments:** Same image across all stages\n- **Isolated testing:** Clean test environments\n- **Parallel builds:** Multiple stages simultaneously\n- **Easy rollbacks:** Previous image versions available",
+      "keywords": ["CI/CD pipeline", "GitHub Actions", "multi-stage builds", "container registry", "testing", "deployment", "consistent environments", "rollbacks"],
+      "difficulty": "hard"
+    }
+  ]
+}
