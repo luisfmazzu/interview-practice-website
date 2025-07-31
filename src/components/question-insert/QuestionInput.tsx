@@ -232,7 +232,7 @@ export function QuestionInput({ topic, onQuestionsSubmitted, onBackToTopics }: Q
           <div>
             <h3 className="font-medium text-blue-900 lg:text-xl">Need a template?</h3>
             <p className="text-sm lg:text-base text-blue-700">Download a sample JSON file to see the expected format.</p>
-            <p className="text-xs lg:text-sm text-blue-600 mt-2 italic">Note: The 'tag' field will be automatically set to the selected topic ({topic}).</p>
+            <p className="text-xs lg:text-sm text-blue-600 mt-2 italic">Note: The &apos;tag&apos; field will be automatically set to the selected topic ({topic}).</p>
           </div>
           <button
             onClick={downloadSampleJson}
@@ -253,7 +253,7 @@ export function QuestionInput({ topic, onQuestionsSubmitted, onBackToTopics }: Q
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-lg lg:text-2xl font-medium text-gray-900">Questions JSON</h3>
-              <p className="text-xs lg:text-sm text-gray-600 mt-1">Do not include a 'tag' field - it will be set automatically to: <span className="font-medium">{topic}</span></p>
+              <p className="text-xs lg:text-sm text-gray-600 mt-1">Do not include a &apos;tag&apos; field - it will be set automatically to: <span className="font-medium">{topic}</span></p>
             </div>
             <div className="flex gap-2">
               <button
@@ -285,7 +285,7 @@ export function QuestionInput({ topic, onQuestionsSubmitted, onBackToTopics }: Q
           <div className="h-96 lg:h-[500px] overflow-y-auto border border-gray-300 rounded-lg p-4 lg:p-6">
             {validationErrors.length === 0 && !isValid && !isValidating && (
               <div className="text-gray-500 text-center py-8 lg:py-16 text-base lg:text-lg">
-                Click "Validate" to check your JSON format
+                Click &quot;Validate&quot; to check your JSON format
               </div>
             )}
 

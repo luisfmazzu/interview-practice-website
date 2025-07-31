@@ -68,7 +68,9 @@ async function migrateData() {
         question: q.question,
         answer: q.answer,
         keywords: q.keywords || [],
+        studyTopics: [], // Will be added later
         difficulty: q.difficulty,
+        createdBy: 'migration', // Set default for migrated questions
         createdAt: q.createdAt ? new Date(q.createdAt) : new Date(),
         updatedAt: new Date()
       }));
@@ -113,7 +115,9 @@ async function migrateData() {
           question: q.question,
           answer: q.answer,
           keywords: q.keywords || [],
+          studyTopics: [], // Will be added later
           difficulty: q.difficulty,
+          createdBy: 'migration', // Set default for migrated questions
           createdAt: q.createdAt ? new Date(q.createdAt) : new Date(),
           updatedAt: new Date()
         }));

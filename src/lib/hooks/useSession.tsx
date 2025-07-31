@@ -38,7 +38,7 @@ export const useSession = () => {
     return updatedSession;
   };
 
-  const addAccessedQuestion = (questionId: number) => {
+  const addAccessedQuestion = (questionId: string) => {
     const updatedSession = sessionManager.addAccessedQuestion(questionId);
     setSessionData(updatedSession);
     return updatedSession;

@@ -72,7 +72,7 @@ export function TopicSelection({ onTopicSelected }: TopicSelectionProps) {
     }
 
     // Check if topic already exists
-    if (Object.values(COLLECTIONS).includes(topicKey)) {
+    if (Object.values(COLLECTIONS).includes(topicKey as any)) {
       setError('This topic already exists');
       return;
     }
@@ -152,7 +152,7 @@ export function TopicSelection({ onTopicSelected }: TopicSelectionProps) {
             Create New Topic
           </h3>
           <p className="text-gray-600 lg:text-xl">
-            Don't see the topic you need? Create a new category.
+            Don&apos;t see the topic you need? Create a new category.
           </p>
         </div>
 
