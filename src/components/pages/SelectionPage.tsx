@@ -1,11 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Category } from '@/types';
-import { CATEGORIES, TECHNOLOGIES } from '@/lib/constants';
+import { CATEGORIES } from '@/lib/constants';
 import { useSession } from '@/lib/hooks';
 import { Button, Card } from '@/components/ui';
+
+interface Technology {
+  id: string;
+  label: string;
+}
 
 const SelectionPage: React.FC = () => {
   const router = useRouter();
@@ -15,6 +20,33 @@ const SelectionPage: React.FC = () => {
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [technologies, setTechnologies] = useState<Technology[]>([]);
+  const [isLoadingTechnologies, setIsLoadingTechnologies] = useState(false);
+
+  // Fetch available collections/technologies from MongoDB
+  useEffect(() => {
+    const fetchTechnologies = async () => {
+      setIsLoadingTechnologies(true);
+      try {
+        const response = await fetch('/api/collections');
+        const data = await response.json();
+        
+        if (data.success) {
+          setTechnologies(data.collections);
+        } else {
+          console.error('Failed to fetch collections:', data.error);
+          setValidationErrors(['Failed to load available technologies']);
+        }
+      } catch (error) {
+        console.error('Error fetching collections:', error);
+        setValidationErrors(['Failed to load available technologies']);
+      } finally {
+        setIsLoadingTechnologies(false);
+      }
+    };
+
+    fetchTechnologies();
+  }, []);
 
   const handleCategoryChange = (category: Category) => {
     setSelectedCategory(category);
@@ -125,20 +157,30 @@ const SelectionPage: React.FC = () => {
                 Technologies (select at least one)
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-60 overflow-y-auto">
-                {TECHNOLOGIES.map((tech) => (
-                  <label key={tech.id} className="flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      value={tech.id}
-                      checked={selectedTechnologies.includes(tech.id)}
-                      onChange={() => handleTechnologyChange(tech.id)}
-                      className="checkbox-input w-5 h-5"
-                    />
-                    <span className="ml-3 text-base text-gray-800 font-medium">
-                      {tech.label}
-                    </span>
-                  </label>
-                ))}
+                {isLoadingTechnologies ? (
+                  <div className="col-span-full text-center py-4">
+                    <div className="text-gray-600">Loading available technologies...</div>
+                  </div>
+                ) : technologies.length === 0 ? (
+                  <div className="col-span-full text-center py-4">
+                    <div className="text-gray-600">No technologies available</div>
+                  </div>
+                ) : (
+                  technologies.map((tech) => (
+                    <label key={tech.id} className="flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        value={tech.id}
+                        checked={selectedTechnologies.includes(tech.id)}
+                        onChange={() => handleTechnologyChange(tech.id)}
+                        className="checkbox-input w-5 h-5"
+                      />
+                      <span className="ml-3 text-base text-gray-800 font-medium">
+                        {tech.label}
+                      </span>
+                    </label>
+                  ))
+                )}
               </div>
             </div>
           )}
