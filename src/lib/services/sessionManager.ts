@@ -49,7 +49,7 @@ export class SessionManager {
     return updatedSession;
   }
 
-  addAccessedQuestion(questionId: number): SessionData | null {
+  addAccessedQuestion(questionId: string): SessionData | null {
     const currentSession = this.loadSession();
     if (!currentSession) return null;
 
@@ -64,7 +64,7 @@ export class SessionManager {
     });
   }
 
-  isQuestionAccessed(questionId: number): boolean {
+  isQuestionAccessed(questionId: string): boolean {
     const session = this.loadSession();
     return session?.accessedQuestionIds.includes(questionId) ?? false;
   }

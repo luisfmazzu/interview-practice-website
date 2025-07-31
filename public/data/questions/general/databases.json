@@ -1,0 +1,245 @@
+{
+  "technology": "databases",
+  "questions": [
+    {
+      "id": 24000,
+      "tag": "databases",
+      "question": "What is ACID in the context of databases?",
+      "answer": "ACID stands for Atomicity, Consistency, Isolation, and Durability. It is a set of properties that ensure reliable database transactions.\n\n- **Atomicity**: Guarantees that all operations in a transaction are completed successfully, or none are applied.\n- **Consistency**: Ensures a transaction moves the database from one valid state to another, respecting all rules and constraints.\n- **Isolation**: Prevents concurrent transactions from interfering with each other, maintaining data integrity.\n- **Durability**: Ensures that committed transactions remain permanent, even after system failures.",
+      "keywords": ["ACID", "atomicity", "consistency", "isolation", "durability", "transactions"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 24001,
+      "tag": "databases",
+      "question": "Explain the difference between strong consistency and eventual consistency.",
+      "answer": "Strong consistency ensures that any read operation returns the most recent write, providing immediate data consistency across all nodes in a system. Eventual consistency allows temporary inconsistencies, guaranteeing that all nodes will eventually converge to the same value if no new updates occur. Strong consistency prioritizes data integrity but may reduce availability, while eventual consistency favors availability and partition tolerance, often used in distributed systems where slight delays in consistency are acceptable.",
+      "keywords": ["strong consistency", "eventual consistency", "distributed systems", "data consistency", "CAP theorem"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24002,
+      "tag": "databases",
+      "question": "What is database normalization and why is it important?",
+      "answer": "Database normalization organizes a database schema to reduce redundancy and dependency by splitting large tables into smaller, related ones linked by foreign keys. It’s important because it:\n- Reduces data duplication, saving space and preventing inconsistencies.\n- Enhances data integrity through enforced constraints.\n- Simplifies maintenance by isolating changes.\n- Can improve query performance by minimizing data scanned.",
+      "keywords": ["normalization", "data redundancy", "data integrity", "normal forms", "database design"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 24003,
+      "tag": "databases",
+      "question": "Describe the different types of database indexes and their use cases.",
+      "answer": "Indexes improve data retrieval speed. Common types include:\n- **B-tree**: General-purpose, good for equality and range queries.\n- **Hash**: Fast for exact matches, not suitable for ranges.\n- **Bitmap**: Efficient for low-cardinality columns with multiple conditions.\n- **Full-text**: Optimized for text search, like phrases or rankings.\n- **Spatial**: Supports geographic data queries, e.g., proximity searches.",
+      "keywords": ["indexes", "B-tree", "hash", "bitmap", "full-text", "spatial", "query optimization"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24004,
+      "tag": "databases",
+      "question": "What is a primary key and how does it differ from a foreign key?",
+      "answer": "A **primary key** uniquely identifies each row in a table, requiring unique, non-null values. A **foreign key** references a primary key in another table to establish relationships and enforce referential integrity. The primary key defines identity within a table, while the foreign key connects tables.",
+      "keywords": ["primary key", "foreign key", "unique identifier", "referential integrity", "relationships"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 24005,
+      "tag": "databases",
+      "question": "Explain the concept of a database transaction and its properties.",
+      "answer": "A transaction is a sequence of operations treated as a single unit, adhering to ACID properties:\n- **Atomicity**: All or nothing execution.\n- **Consistency**: Maintains database rules.\n- **Isolation**: Prevents interference between concurrent transactions.\n- **Durability**: Ensures permanence of committed changes.",
+      "keywords": ["transaction", "ACID", "atomicity", "consistency", "isolation", "durability"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24006,
+      "tag": "databases",
+      "question": "What is the difference between OLTP and OLAP databases?",
+      "answer": "**OLTP** (Online Transaction Processing) handles short, frequent transactions (e.g., e-commerce) with focus on consistency and concurrency. **OLAP** (Online Analytical Processing) manages complex analytical queries on large datasets (e.g., data warehousing), prioritizing query speed and aggregations.",
+      "keywords": ["OLTP", "OLAP", "transactional processing", "analytical processing", "data warehousing"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24007,
+      "tag": "databases",
+      "question": "Describe the CAP theorem and its implications for distributed databases.",
+      "answer": "The CAP theorem states a distributed system can only guarantee two of three properties: **Consistency**, **Availability**, and **Partition Tolerance**. Implications include choosing between CA (consistent, available), CP (consistent, partition-tolerant), or AP (available, partition-tolerant) based on application needs.",
+      "keywords": ["CAP theorem", "consistency", "availability", "partition tolerance", "distributed databases"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24008,
+      "tag": "databases",
+      "question": "What are the advantages and disadvantages of NoSQL databases compared to relational databases?",
+      "answer": "**Advantages**: Scalability (horizontal), flexibility (schema-less), performance (for specific use cases). **Disadvantages**: Limited ACID support, lack of standardization, less mature ecosystem, increased complexity in distributed setups.",
+      "keywords": ["NoSQL", "relational databases", "scalability", "flexibility", "ACID", "schema"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24009,
+      "tag": "databases",
+      "question": "Explain the concept of database sharding and when it might be necessary.",
+      "answer": "Sharding splits a database into smaller partitions (shards) across servers to enhance scalability and performance. It’s necessary for large datasets, high write loads, or when a single server can’t handle the workload.",
+      "keywords": ["sharding", "horizontal partitioning", "scalability", "shard key", "data distribution"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24010,
+      "tag": "databases",
+      "question": "What is a database view and how does it differ from a table?",
+      "answer": "A **view** is a virtual table derived from a query, not storing data itself, unlike a **table**, which physically holds data. Views simplify queries and enhance security; tables support direct data manipulation.",
+      "keywords": ["view", "table", "virtual table", "stored query", "data presentation"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 24011,
+      "tag": "databases",
+      "question": "Describe the different types of SQL joins and their use cases.",
+      "answer": "- **INNER JOIN**: Matches in both tables.\n- **LEFT JOIN**: All from left, matched from right.\n- **RIGHT JOIN**: All from right, matched from left.\n- **FULL JOIN**: All from both, with NULLs where no match.\n- **CROSS JOIN**: All combinations.",
+      "keywords": ["joins", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "CROSS JOIN"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24012,
+      "tag": "databases",
+      "question": "What is the difference between a database schema and a database instance?",
+      "answer": "A **schema** defines the structure (tables, columns, constraints), while an **instance** is the actual data at a specific moment.",
+      "keywords": ["schema", "instance", "structure", "data", "design"],
+      "difficulty": "easy"
+    },
+    {
+      "id": 24013,
+      "tag": "databases",
+      "question": "Explain the concept of database denormalization and when it might be appropriate.",
+      "answer": "Denormalization adds redundancy to boost performance, suitable for read-heavy workloads, analytics, or precomputed data needs, but it risks data inconsistency.",
+      "keywords": ["denormalization", "redundancy", "performance", "data integrity", "read-heavy workloads"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24014,
+      "tag": "databases",
+      "question": "What are database triggers and how are they used?",
+      "answer": "Triggers are stored procedures that run automatically on events (e.g., insert, update). They enforce rules, audit changes, or maintain integrity.",
+      "keywords": ["triggers", "stored procedures", "events", "business rules", "data integrity"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24015,
+      "tag": "databases",
+      "question": "Describe the different isolation levels in database transactions.",
+      "answer": "- **READ UNCOMMITTED**: Allows dirty reads.\n- **READ COMMITTED**: Prevents dirty reads.\n- **REPEATABLE READ**: Prevents non-repeatable reads.\n- **SERIALIZABLE**: Fully isolates transactions.",
+      "keywords": ["isolation levels", "transactions", "concurrency", "READ UNCOMMITTED", "READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24016,
+      "tag": "databases",
+      "question": "What is the difference between a clustered and non-clustered index?",
+      "answer": "A **clustered index** orders the table’s data physically (one per table). A **non-clustered index** is a separate structure with pointers (multiple allowed).",
+      "keywords": ["clustered index", "non-clustered index", "data storage", "performance", "B-tree"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24017,
+      "tag": "databases",
+      "question": "Explain the concept of database replication and its benefits.",
+      "answer": "Replication creates synchronized copies of a database for high availability, load balancing, disaster recovery, and faster reads.",
+      "keywords": ["replication", "high availability", "load balancing", "disaster recovery", "read performance"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24018,
+      "tag": "databases",
+      "question": "What are the key considerations when designing a database schema?",
+      "answer": "Key factors include data requirements, normalization, data types, indexes, constraints, scalability, performance, security, maintainability, and compliance.",
+      "keywords": ["schema design", "normalization", "data types", "indexes", "constraints", "scalability", "performance"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24019,
+      "tag": "databases",
+      "question": "Describe the process of database backup and recovery.",
+      "answer": "Backup involves creating full or incremental copies, stored securely. Recovery restores from backups, applying logs if needed, followed by validation.",
+      "keywords": ["backup", "recovery", "full backup", "incremental backup", "transaction log", "data loss", "disaster recovery"],
+      "difficulty": "medium"
+    },
+    {
+      "id": 24020,
+      "tag": "databases",
+      "question": "Explain the concept of denormalization in database design. When might you choose to denormalize a database, and what are the potential trade-offs?",
+      "answer": "Denormalization is the process of intentionally introducing redundancy into a database schema by merging tables or adding redundant data. This is typically done to improve query performance by reducing the number of joins required. You might choose to denormalize a database in scenarios where read performance is critical, such as in reporting systems or data warehouses where complex queries are common. Denormalization can also be useful in systems with high read-to-write ratios, where the cost of maintaining redundant data is outweighed by the performance gains. However, denormalization comes with trade-offs. It can lead to increased storage requirements due to redundant data. It also complicates data maintenance, as updates, inserts, and deletes may need to be performed in multiple places to keep the data consistent. This can increase the risk of data anomalies and inconsistencies if not managed properly.",
+      "keywords": ["denormalization", "redundancy", "performance", "joins", "data consistency", "storage", "maintenance"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24021,
+      "tag": "databases",
+      "question": "Describe how you would design an indexing strategy for a database that needs to support both transactional (OLTP) and analytical (OLAP) workloads. What types of indexes would you use, and why?",
+      "answer": "Designing an indexing strategy for a database that supports both OLTP and OLAP workloads requires balancing the needs of both types of operations. For OLTP workloads, which involve frequent, small transactions, you would typically use indexes that support fast lookups and updates. B-tree indexes are commonly used for this purpose, as they provide efficient access to individual rows and support range queries. For OLAP workloads, which involve complex queries and aggregations over large datasets, you might use different types of indexes. For example, bitmap indexes can be effective for columns with low cardinality, as they allow for fast filtering and aggregation. Additionally, column-store indexes can be beneficial for analytical queries that access only a subset of columns. In some cases, you might need to create composite indexes that cover multiple columns to support specific queries. It's also important to consider the impact of indexes on write performance, as maintaining indexes can slow down insert, update, and delete operations. To optimize for both workloads, you could consider using a combination of indexes tailored to each type of query. For instance, you might have B-tree indexes on primary keys and frequently queried columns for OLTP, and bitmap or column-store indexes for OLAP queries. It's also crucial to monitor query performance and adjust the indexing strategy as needed based on actual usage patterns.",
+      "keywords": ["indexing strategy", "OLTP", "OLAP", "B-tree", "bitmap", "column-store", "composite indexes", "performance"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24022,
+      "tag": "databases",
+      "question": "Discuss some techniques you can use to optimize the performance of a database that is experiencing high levels of contention. How would you identify and address issues like lock contention and deadlocks?",
+      "answer": "High levels of contention in a database can lead to performance bottlenecks. To optimize performance, you can use several techniques: 1. **Lock contention**: To reduce lock contention, you can minimize the duration of locks by optimizing transactions to be as short as possible. This might involve breaking down large transactions into smaller ones or using optimistic concurrency control mechanisms. 2. **Deadlocks**: Deadlocks occur when two or more transactions are waiting for each other to release locks. To address deadlocks, you can implement deadlock detection and resolution mechanisms, such as setting timeouts or using deadlock avoidance strategies like ordering resource access. 3. **Query optimization**: Optimizing queries to use efficient access paths and reduce the amount of data scanned can help alleviate contention. This might involve rewriting queries, adding appropriate indexes, or using query hints. 4. **Partitioning**: Partitioning large tables can help distribute the load and reduce contention on specific resources. 5. **Caching**: Implementing caching mechanisms can reduce the need for frequent database access, thereby reducing contention. To identify issues, you can use database monitoring tools to track lock waits, deadlocks, and other performance metrics. Analyzing query execution plans and identifying slow-running queries can also help pinpoint areas of contention.",
+      "keywords": ["contention", "lock contention", "deadlocks", "transactions", "query optimization", "partitioning", "caching", "monitoring"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24023,
+      "tag": "databases",
+      "question": "What are the challenges of maintaining consistency in a distributed database system? Describe some strategies or technologies that can help address these challenges.",
+      "answer": "Maintaining consistency in a distributed database system is challenging due to factors like network latency, partition tolerance, and the need for coordination among nodes. Some key challenges include: 1. **Network partitions**: When parts of the network become isolated, ensuring consistency across all nodes becomes difficult. 2. **Latency**: Delays in communication can lead to inconsistencies if updates are not propagated quickly enough. 3. **Concurrency**: Managing concurrent updates across multiple nodes requires careful coordination to avoid conflicts. To address these challenges, several strategies and technologies can be used: 1. **Consensus algorithms**: Algorithms like Paxos or Raft can help achieve agreement among nodes on the state of the database. 2. **Distributed transactions**: Techniques like two-phase commit (2PC) can ensure that transactions are applied consistently across multiple nodes. 3. **Eventual consistency**: Some systems opt for eventual consistency, where updates are propagated asynchronously, and the system eventually reaches a consistent state. 4. **Conflict resolution**: Implementing conflict detection and resolution mechanisms can help manage concurrent updates. 5. **Sharding**: Distributing data across multiple nodes can reduce the scope of consistency requirements and improve scalability. Technologies like Apache Cassandra, MongoDB, and Google Spanner offer different approaches to handling consistency in distributed environments.",
+      "keywords": ["distributed databases", "consistency", "network partitions", "latency", "concurrency", "consensus algorithms", "distributed transactions", "eventual consistency"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24024,
+      "tag": "databases",
+      "question": "How would you design a database to ensure data privacy and comply with regulations like the General Data Protection Regulation (GDPR)? What security measures would you implement?",
+      "answer": "Designing a database for data privacy and GDPR compliance involves several key measures: 1. **Data minimization**: Collect and store only the data that is necessary for the intended purpose. 2. **Access controls**: Implement role-based access control (RBAC) to restrict access to sensitive data based on user roles and permissions. 3. **Encryption**: Use encryption for data at rest and in transit to protect against unauthorized access. 4. **Auditing**: Maintain audit logs to track access and modifications to sensitive data, ensuring accountability. 5. **Data masking**: Use techniques like data masking or anonymization for non-production environments to protect sensitive information. 6. **Consent management**: Implement mechanisms to manage user consent for data processing and provide options for data deletion or correction. 7. **Data retention policies**: Define and enforce policies for how long data is retained and when it should be deleted. 8. **Regular security assessments**: Conduct periodic security audits and vulnerability assessments to identify and address potential risks. Additionally, ensuring that the database management system is configured securely and kept up to date with security patches is crucial.",
+      "keywords": ["data privacy", "GDPR", "access controls", "encryption", "auditing", "data masking", "consent management", "data retention"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24025,
+      "tag": "databases",
+      "question": "Compare and contrast relational databases and NoSQL databases. Provide examples of use cases where one might be more suitable than the other.",
+      "answer": "Relational databases and NoSQL databases differ in their data models, scalability, and consistency models. **Relational databases**: - Use a structured schema with tables, rows, and columns. - Enforce ACID properties for transactions. - Support complex queries and joins. - Examples: MySQL, PostgreSQL, Oracle. **NoSQL databases**: - Use various data models like key-value, document, column-family, or graph. - Often provide eventual consistency rather than strict ACID compliance. - Designed for horizontal scalability and handling large volumes of unstructured data. - Examples: MongoDB, Cassandra, Redis. Use cases for relational databases: - Applications requiring complex transactions, like banking systems. - Systems with well-defined schemas and relationships, such as CRM systems. Use cases for NoSQL databases: - Handling large volumes of unstructured data, like social media feeds. - Real-time analytics and big data processing. - Applications requiring high scalability and flexibility, such as IoT platforms.",
+      "keywords": ["relational databases", "NoSQL", "data models", "scalability", "consistency", "ACID", "use cases"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24026,
+      "tag": "databases",
+      "question": "If you were designing a database for a social media platform, what considerations would you make for scalability and performance? How would you handle large volumes of data and high levels of user activity?",
+      "answer": "Designing a database for a social media platform requires careful consideration of scalability and performance due to the large volumes of data and high user activity. Key considerations include: 1. **Data partitioning**: Use sharding or partitioning to distribute data across multiple servers, allowing for horizontal scalability. 2. **Caching**: Implement caching layers (e.g., Redis, Memcached) to reduce database load for frequently accessed data. 3. **Denormalization**: Denormalize data to reduce the need for complex joins and improve read performance. 4. **Asynchronous processing**: Use message queues or background jobs to handle non-critical tasks, reducing the load on the database during peak times. 5. **Optimized queries**: Design efficient queries and use appropriate indexes to minimize response times. 6. **Load balancing**: Distribute traffic across multiple database instances to prevent bottlenecks. 7. **Data archiving**: Implement strategies to archive or purge old data to manage storage and maintain performance. Additionally, choosing a database technology that supports horizontal scalability, such as a NoSQL database or a distributed SQL database, can be beneficial.",
+      "keywords": ["scalability", "performance", "sharding", "caching", "denormalization", "asynchronous processing", "load balancing", "data archiving"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24027,
+      "tag": "databases",
+      "question": "Outline the steps you would take to migrate a database from one platform to another. What challenges might you encounter, and how would you address them?",
+      "answer": "Migrating a database from one platform to another involves several steps: 1. **Planning**: Assess the current database structure, data volume, and dependencies. Define the target platform and migration strategy. 2. **Schema conversion**: Map the existing schema to the target platform, accounting for differences in data types, constraints, and features. 3. **Data extraction**: Extract data from the source database, ensuring data integrity and consistency. 4. **Data transformation**: Transform the data to match the target schema, handling any necessary conversions or mappings. 5. **Data loading**: Load the transformed data into the target database, optimizing for performance and minimizing downtime. 6. **Testing**: Thoroughly test the migrated database to ensure data accuracy, performance, and functionality. 7. **Cutover**: Plan and execute the cutover to the new database, minimizing disruption to users. Challenges might include: - **Data type mismatches**: Address by carefully mapping data types and handling any incompatibilities. - **Downtime**: Minimize downtime by using techniques like incremental migration or replication. - **Performance differences**: Optimize queries and indexes for the new platform to maintain or improve performance. - **Feature disparities**: Adapt applications to account for differences in database features or behaviors.",
+      "keywords": ["database migration", "schema conversion", "data extraction", "data transformation", "data loading", "testing", "cutover", "challenges"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24028,
+      "tag": "databases",
+      "question": "Describe how you would test a database to ensure it meets performance and reliability requirements. What types of tests would you perform, and what tools might you use?",
+      "answer": "Testing a database for performance and reliability involves several types of tests: 1. **Performance testing**: Measure the database's response times, throughput, and resource utilization under various loads. This can include load testing, stress testing, and benchmark testing. 2. **Concurrency testing**: Simulate multiple users or transactions to ensure the database handles concurrency without issues like deadlocks or contention. 3. **Failover testing**: Test the database's ability to recover from failures, such as hardware crashes or network outages. 4. **Data integrity testing**: Verify that data remains consistent and accurate after various operations, including transactions and backups. 5. **Security testing**: Assess the database's security measures, such as access controls and encryption, to ensure data protection. Tools that can be used for database testing include: - **JMeter**: For load and performance testing. - **SQL Server Profiler**: For monitoring and analyzing database activity. - **Oracle Enterprise Manager**: For performance tuning and diagnostics. - **pgbench**: For benchmarking PostgreSQL databases. - **HammerDB**: For database load testing and benchmarking.",
+      "keywords": ["database testing", "performance testing", "reliability", "concurrency", "failover", "data integrity", "security", "tools"],
+      "difficulty": "hard"
+    },
+    {
+      "id": 24029,
+      "tag": "databases",
+      "question": "What are some best practices for database backup and recovery? How would you ensure that your backup strategy is effective and reliable?",
+      "answer": "Best practices for database backup and recovery include: 1. **Regular backups**: Schedule regular full and incremental backups to minimize data loss. 2. **Offsite storage**: Store backups in a secure, offsite location to protect against disasters. 3. **Automation**: Automate backup processes to ensure consistency and reduce human error. 4. **Testing**: Regularly test backup and recovery procedures to verify their effectiveness. 5. **Monitoring**: Monitor backup jobs and alert on failures or anomalies. 6. **Documentation**: Maintain detailed documentation of backup and recovery processes. 7. **Versioning**: Keep multiple versions of backups to allow for point-in-time recovery. To ensure the backup strategy is effective and reliable, you should: - Perform periodic recovery drills to validate the backups. - Verify the integrity of backup files. - Ensure that the backup frequency aligns with the recovery point objective (RPO). - Consider the recovery time objective (RTO) when designing the recovery process.",
+      "keywords": ["backup", "recovery", "best practices", "automation", "testing", "monitoring", "documentation", "RPO", "RTO"],
+      "difficulty": "hard"
+    }
+  ]
+}

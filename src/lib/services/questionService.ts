@@ -1,7 +1,8 @@
-import { Question, QuestionFile, Category } from '@/types';
+import { Question, Category } from '@/types';
+import { COLLECTIONS, CollectionName } from '@/models/Question';
 
 export class QuestionService {
-  private questionIndex: Map<number, Question> = new Map();
+  private questionIndex: Map<string, Question> = new Map();
   private questionsByTag: Map<string, Question[]> = new Map();
   private allQuestions: Question[] = [];
   private isLoaded = false;
@@ -10,48 +11,37 @@ export class QuestionService {
     if (category === 'general' && technologies.length > 0) {
       return this.loadTechnologyQuestions(technologies);
     } else if (category === 'systems_design') {
-      return this.loadCategoryQuestions('systems_design');
+      return this.loadCategoryQuestions(COLLECTIONS.SYSTEMS_DESIGN);
     } else if (category === 'behaviour') {
-      return this.loadCategoryQuestions('behaviour');
+      return this.loadCategoryQuestions(COLLECTIONS.BEHAVIOUR);
     }
     return [];
   }
 
   private async loadTechnologyQuestions(technologies: string[]): Promise<Question[]> {
     const questionSets = await Promise.all(
-      technologies.map(tech => this.loadTechnologyFile(tech))
+      technologies.map(tech => this.loadCollectionQuestions(tech as CollectionName))
     );
     return questionSets.flat();
   }
 
-  private async loadTechnologyFile(technology: string): Promise<Question[]> {
+  private async loadCollectionQuestions(collection: CollectionName): Promise<Question[]> {
     try {
-      const response = await fetch(`/data/questions/general/${technology}.json`);
+      const response = await fetch(`/api/questions?collection=${collection}&limit=1000`);
       if (!response.ok) {
-        console.error(`Failed to load questions for ${technology}`);
-        return [];
-      }
-      const data: QuestionFile = await response.json();
-      return data.questions || [];
-    } catch (error) {
-      console.error(`Error loading ${technology} questions:`, error);
-      return [];
-    }
-  }
-
-  private async loadCategoryQuestions(category: string): Promise<Question[]> {
-    try {
-      const response = await fetch(`/data/questions/${category}.json`);
-      if (!response.ok) {
-        console.error(`Failed to load questions for ${category}`);
+        console.error(`Failed to load questions for ${collection}`);
         return [];
       }
       const data = await response.json();
       return data.questions || [];
     } catch (error) {
-      console.error(`Error loading ${category} questions:`, error);
+      console.error(`Error loading ${collection} questions:`, error);
       return [];
     }
+  }
+
+  private async loadCategoryQuestions(collection: CollectionName): Promise<Question[]> {
+    return this.loadCollectionQuestions(collection);
   }
 
   async initializeQuestions(category: Category, technologies: string[] = []): Promise<void> {
@@ -66,7 +56,7 @@ export class QuestionService {
     this.questionsByTag.clear();
 
     questions.forEach(question => {
-      // Build ID index
+      // Build ID index (now using UUID strings)
       this.questionIndex.set(question.id, question);
 
       // Build tag index
@@ -77,7 +67,7 @@ export class QuestionService {
     });
   }
 
-  getRandomQuestion(excludeIds: number[] = []): Question | null {
+  getRandomQuestion(excludeIds: string[] = []): Question | null {
     if (!this.isLoaded || this.allQuestions.length === 0) {
       return null;
     }
@@ -96,8 +86,21 @@ export class QuestionService {
     return availableQuestions[randomIndex];
   }
 
-  getQuestionById(id: number): Question | undefined {
+  getQuestionById(id: string): Question | undefined {
     return this.questionIndex.get(id);
+  }
+
+  async getQuestionByIdFromAPI(id: string, collection: CollectionName): Promise<Question | null> {
+    try {
+      const response = await fetch(`/api/questions/${id}?collection=${collection}`);
+      if (!response.ok) {
+        return null;
+      }
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching question ${id}:`, error);
+      return null;
+    }
   }
 
   getQuestionsByTag(tag: string): Question[] {
@@ -108,22 +111,73 @@ export class QuestionService {
     return this.allQuestions.length;
   }
 
-  getAvailableQuestions(excludeIds: number[] = []): Question[] {
+  getAvailableQuestions(excludeIds: string[] = []): Question[] {
     return this.allQuestions.filter(q => !excludeIds.includes(q.id));
   }
 
-  getRemainingQuestionCount(excludeIds: number[] = []): number {
+  getRemainingQuestionCount(excludeIds: string[] = []): number {
     return this.getAvailableQuestions(excludeIds).length;
   }
 
-  // Utility method to validate questions
+  async searchQuestions(
+    query: string,
+    collections: CollectionName[] = Object.values(COLLECTIONS),
+    difficulty?: 'easy' | 'medium' | 'hard',
+    limit: number = 50
+  ): Promise<Question[]> {
+    try {
+      const params = new URLSearchParams({
+        q: query,
+        collections: collections.join(','),
+        limit: limit.toString()
+      });
+
+      if (difficulty) {
+        params.set('difficulty', difficulty);
+      }
+
+      const response = await fetch(`/api/questions/search?${params}`);
+      if (!response.ok) {
+        throw new Error('Search failed');
+      }
+
+      const data = await response.json();
+      return data.questions || [];
+    } catch (error) {
+      console.error('Error searching questions:', error);
+      return [];
+    }
+  }
+
+  async getCollectionStats(): Promise<{
+    collections: Array<{
+      name: string;
+      key: string;
+      count: number;
+      category: string;
+    }>;
+    total: number;
+  }> {
+    try {
+      const response = await fetch('/api/questions/collections');
+      if (!response.ok) {
+        throw new Error('Failed to fetch collection stats');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching collection stats:', error);
+      return { collections: [], total: 0 };
+    }
+  }
+
+  // Utility method to validate questions (updated for UUID)
   private validateQuestion(question: any): question is Question {
     return (
-      typeof question.id === 'number' &&
+      typeof question.id === 'string' &&
       typeof question.tag === 'string' &&
       typeof question.question === 'string' &&
       typeof question.answer === 'string' &&
-      question.id > 0 &&
+      question.id.length > 0 &&
       question.question.length >= 10 &&
       question.answer.length >= 20 &&
       (question.keywords === undefined || Array.isArray(question.keywords))
@@ -148,18 +202,8 @@ export class QuestionService {
 
   // Fallback questions in case of loading errors
   private getFallbackQuestions(category: Category): Question[] {
-    // Use appropriate ID range for fallback based on category
-    const getBaseId = (cat: Category): number => {
-      switch (cat) {
-        case 'general': return 999; // Top of JavaScript range
-        case 'systems_design': return 3999; // Top of Systems Design range
-        case 'behaviour': return 4999; // Top of Behavioral range
-        default: return 99999; // Fallback for unknown categories
-      }
-    };
-
     const fallbackQuestion: Question = {
-      id: getBaseId(category),
+      id: `fallback-${category}-${Date.now()}`,
       tag: category,
       question: 'Sample question - Unable to load questions at this time.',
       answer: 'Please refresh the page and try again. If the problem persists, check your internet connection.',
@@ -169,40 +213,51 @@ export class QuestionService {
     return [fallbackQuestion];
   }
 
-  // Get metadata about available questions (replaces the old index.json approach)
+  // Get metadata about available questions
   async getQuestionMetadata(): Promise<{
     totalQuestions: number;
     categories: Record<string, number | Record<string, number>>;
   }> {
-    const metadata = {
-      totalQuestions: 0,
-      categories: {} as Record<string, number | Record<string, number>>
-    };
-
     try {
-      // Load general category technologies
-      const technologies = ['javascript', 'react', 'typescript'];
-      const generalCounts: Record<string, number> = {};
+      const stats = await this.getCollectionStats();
       
-      for (const tech of technologies) {
-        const questions = await this.loadTechnologyFile(tech);
-        generalCounts[tech] = questions.length;
-        metadata.totalQuestions += questions.length;
-      }
-      metadata.categories.general = generalCounts;
+      const metadata = {
+        totalQuestions: stats.total,
+        categories: {} as Record<string, number | Record<string, number>>
+      };
 
-      // Load other categories
-      const otherCategories = ['systems_design', 'behaviour'];
-      for (const category of otherCategories) {
-        const questions = await this.loadCategoryQuestions(category);
-        metadata.categories[category] = questions.length;
-        metadata.totalQuestions += questions.length;
+      // Group by category
+      const generalCounts: Record<string, number> = {};
+      let systemsDesignCount = 0;
+      let behaviourCount = 0;
+
+      stats.collections.forEach(collection => {
+        if (collection.category === 'general') {
+          generalCounts[collection.key] = collection.count;
+        } else if (collection.name === 'systems_design') {
+          systemsDesignCount = collection.count;
+        } else if (collection.name === 'behaviour') {
+          behaviourCount = collection.count;
+        }
+      });
+
+      if (Object.keys(generalCounts).length > 0) {
+        metadata.categories.general = generalCounts;
+      }
+      if (systemsDesignCount > 0) {
+        metadata.categories.systems_design = systemsDesignCount;
+      }
+      if (behaviourCount > 0) {
+        metadata.categories.behaviour = behaviourCount;
       }
 
+      return metadata;
     } catch (error) {
       console.error('Error generating question metadata:', error);
+      return {
+        totalQuestions: 0,
+        categories: {}
+      };
     }
-
-    return metadata;
   }
 }

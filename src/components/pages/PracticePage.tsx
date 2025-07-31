@@ -285,6 +285,26 @@ const PracticePage: React.FC = () => {
                   </p>
                 </div>
               ) : null}
+
+              {/* Study Topics section */}
+              {currentQuestion.studyTopics && currentQuestion.studyTopics.length > 0 ? (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-6 mt-4">
+                  <h3 className="text-xl font-semibold text-green-900 mb-4">Study Topics:</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {currentQuestion.studyTopics.map((topic, index) => (
+                      <span 
+                        key={index}
+                        className="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full border border-green-300"
+                      >
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-green-700 mt-3 italic">
+                    📚 Related topics and areas you should study to deepen your understanding.
+                  </p>
+                </div>
+              ) : null}
             </div>
           )}
 

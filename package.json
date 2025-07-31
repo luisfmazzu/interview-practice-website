@@ -7,12 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "migrate": "node scripts/run-migration.js",
+    "add-study-topics": "node scripts/run-add-study-topics.js",
+    "add-created-by": "node scripts/run-add-created-by.js"
   },
   "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "mongodb": "^6.18.0",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",

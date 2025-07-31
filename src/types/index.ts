@@ -1,11 +1,13 @@
 // Core data types
 export interface Question {
-  id: number;
+  id: string; // Changed from number to string (UUID4)
   tag: string;
   question: string;
   answer: string;
   keywords?: string[];
+  studyTopics?: string[]; // New field for study topics
   difficulty?: 'easy' | 'medium' | 'hard';
+  createdBy?: string; // New field for creator
   createdAt?: string;
 }
 
@@ -13,9 +15,9 @@ export interface Question {
 export interface SessionData {
   selectedCategory: 'general' | 'systems_design' | 'behaviour';
   selectedTechnologies: string[];
-  accessedQuestionIds: number[];
+  accessedQuestionIds: string[]; // Changed from number[] to string[] (UUID4)
   sessionStartTime: number;
-  currentQuestionId?: number;
+  currentQuestionId?: string; // Changed from number to string (UUID4)
   sessionId: string;
 }
 
